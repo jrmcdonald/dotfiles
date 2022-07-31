@@ -1,0 +1,40 @@
+[profile sandbox]
+sso_start_url = {{ (onepasswordItemFields "Amazon AWS (Waitrose)").starturl.value }}
+sso_region = eu-west-1
+sso_account_id = {{ (onepasswordItemFields "Amazon AWS (Waitrose)").sandbox.value }}
+sso_role_name = DevUserSandboxAccess
+region = eu-west-1
+output = json
+
+[profile nonprod]
+sso_start_url = {{ (onepasswordItemFields "Amazon AWS (Waitrose)").starturl.value }}
+sso_region = eu-west-1
+sso_account_id = {{ (onepasswordItemFields "Amazon AWS (Waitrose)").nonprod.value }}
+sso_role_name = DevUserNonProductionAccess
+region = eu-west-1
+output = json
+
+[profile nonprod2]
+sso_start_url = {{ (onepasswordItemFields "Amazon AWS (Waitrose)").starturl.value }}
+sso_region = eu-west-1
+sso_account_id = {{ (onepasswordItemFields "Amazon AWS (Waitrose)").nonprod2.value }}
+sso_role_name = DevUserNonProductionAccess
+region = eu-west-1
+output = json
+
+[profile feat]
+sso_start_url = {{ (onepasswordItemFields "Amazon AWS (Waitrose)").starturl.value }}
+sso_region = eu-west-1
+sso_account_id = {{ (onepasswordItemFields "Amazon AWS (Waitrose)").feat.value }}
+sso_role_name = DevUserNonProductionAccess
+region = eu-west-1
+output = json
+
+[profile prod]
+sso_start_url = {{ (onepasswordItemFields "Amazon AWS (Waitrose)").starturl.value }}
+sso_region = eu-west-1
+sso_account_id = {{ (onepasswordItemFields "Amazon AWS (Waitrose)").prod.value }}
+sso_role_name = DevUserProductionAccess
+region = eu-west-1
+output = json
+

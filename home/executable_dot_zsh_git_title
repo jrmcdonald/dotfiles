@@ -1,0 +1,14 @@
+# disable zsh and pure titles
+# prompt_pure_set_title() {}
+DISABLE_AUTO_TITLE="true"
+
+function git_repo_name {
+  REPO_NAME=$(basename `git rev-parse --show-toplevel 2>/dev/null` 2>/dev/null) || echo "${PWD//*\//}"
+  [ -n "$REPO_NAME" ] && echo "$REPO_NAME"
+}
+
+function precmd {
+  name=$(git_repo_name)
+  tmux rename-window "${name}"
+  echo -ne "\e]1;${name}\a"
+}

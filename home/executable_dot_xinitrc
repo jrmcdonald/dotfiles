@@ -1,0 +1,3 @@
+systemctl --user import-environment DISPLAY
+
+export CM_LAUNCHER=rofi

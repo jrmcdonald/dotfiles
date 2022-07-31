@@ -1,0 +1,39 @@
+#
+# 1Password CLI
+#
+mfa() {
+  op item get --otp "$1"
+}
+
+#
+# Docker
+#
+docker-watch-ps() {
+  watch 'docker ps --format "table {{ "{{.ID}}\\t{{.Image}}\\t{{.RunningFor}}\\t{{.Status}}\\t{{.Names}}" }}"'
+}
+
+#
+# Built-in Replacements
+#
+cd() {
+  [[ ! -e $argv[-1] ]] || [[ -d $argv[-1] ]] || argv[-1]=${argv[-1]%/*}
+  builtin cd "$@"
+}
+
+# 
+# JWT
+#
+jwt-decode() {
+  {{- if eq .chezmoi.os "darwin" }}
+  echo $(pbpaste) | step crypto jwt inspect -insecure | jq '.payload.exp |= "\(.) : \(. | todate)" | .payload.iat |= "\(.) : \(. | todate)" | if .payload.nbf != null then .payload.nbf |= "\(.) : \(. | todate)" else . end'
+  {{ else if eq .chezmoi.os "linux" }}
+  echo $(xclip -o) | step crypto jwt inspect -insecure | jq '.payload.exp |= "\(.) : \(. | todate)" | .payload.iat |= "\(.) : \(. | todate)" | if .payload.nbf != null then .payload.nbf |= "\(.) : \(. | todate)" else . end'
+  {{- end }}
+}
+
+#
+# Gradle
+#
+allDepInsight() {
+  ./gradlew allDepInsight --configuration ${1} --dependency ${2}
+}

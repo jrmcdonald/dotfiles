@@ -1,0 +1,7 @@
+.idea
+.project
+org.eclipse.buildship.core.prefs
+.vscode
+**/bin/
+.classpath
+**/LOG_PATH_IS_UNDEFINED/

@@ -1,0 +1,59 @@
+#
+# Waitrose
+#
+aws-sso() {
+  aws_profile=${1:-nonprod}
+  export AWS_PROFILE=${aws_profile}
+  aws sso login 
+}
+
+aws-eks() {
+    aws_eks_env=${1:-dev}
+
+    aws_profile=""
+    case "${aws_eks_env}" in
+      "sandbox")
+        aws_profile="sandbox"
+        ;;
+      "dev")
+        aws_profile="nonprod"
+        ;;
+      "qa")
+        aws_profile="nonprod"
+        ;;
+      "perf2")
+        aws_profile="nonprod2"
+        ;;
+      "prod")
+        aws_profile="prod"
+        ;;
+      *)
+        aws_profile="nonprod"
+        ;;
+    esac
+    
+    aws-sso ${aws_profile}
+
+    aws eks update-kubeconfig --name {{ (onepasswordItemFields "Amazon AWS (Waitrose)").kubecontext.value }}
+
+    current_name=$(kubectx -c)
+    desired_name=$(echo ${current_name} | cut -d / -f2)
+
+    kubectl config delete-context ${desired_name} 
+    kubectl config rename-context ${current_name} ${desired_name}
+}
+
+cfn_nag_scan() {
+  docker run -ti --rm -v $(pwd):/apps -w /apps alpine/cfn-nag $@
+}
+
+mssh_customer_db() {
+ env=${1:-dev}
+
+ instance_id=$(aws ec2 describe-instances \
+               --filter "Name=tag:aws:cloudformation:stack-name,Values={{- (onepasswordItemFields "Amazon AWS (Waitrose)").jumphost.value }}" \
+               --query "Reservations[].Instances[?State.Name == 'running'].InstanceId[]" \
+               --output text)
+
+ mssh -vvv -N -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -L 5432:{{- (onepasswordItemFields "Amazon AWS (Waitrose)").customerdb.value }}:5432 ${instance_id}
+}

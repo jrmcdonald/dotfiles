@@ -1,0 +1,23 @@
+# espanso match file
+
+# For a complete introduction, visit the official docs at: https://espanso.org/docs/
+
+# You can use this file to define the base matches (aka snippets)
+# that will be available in every application when using espanso.
+
+# Matches are substitution rules: when you type the "trigger" string
+# it gets replaced by the "replace" string.
+matches:
+  - trigger: ":copyright"
+    replace: "Copyright (c) Waitrose Ltd $today.year. All Rights reserved.\nThis software is the confidential and proprietary information of Waitrose Ltd (\"Confidential Information\").\n You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the license agreement you entered into with Waitrose Ltd."
+
+  - trigger: ":email"
+    replace: "jamie+{{date}}@waitrose.co.uk"
+    vars:
+      - name: date
+        type: date
+        params:
+          format: "%Y%m%d%H%M"
+
+  - trigger: ":idea-formatter"
+    replace: "--plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter"

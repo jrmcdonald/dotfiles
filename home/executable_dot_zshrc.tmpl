@@ -1,0 +1,95 @@
+# homebrew
+eval "$($(brew --prefix)/bin/brew shellenv)"
+
+# load slimzsh
+source "${HOME}/.slimzsh/slim.zsh"
+
+# load zgen
+source "${HOME}/.zgen/zgen.zsh"
+
+# if the init scipt doesn't exist
+if ! zgen saved; then
+    zgen load unixorn/autoupdate-zgen
+    zgen load zsh-users/zsh-autosuggestions
+    zgen load zsh-users/zsh-syntax-highlighting
+    zgen load zsh-users/zsh-history-substring-search
+    zgen load zsh-users/zsh-completions src
+    zgen load paulirish/git-open
+    zgen load johanhaleby/kubetail
+    zgen load gradle/gradle-completion
+    zgen load spaceship-prompt/spaceship-prompt spaceship
+
+    zgen save
+fi
+
+# load spaceship symlink
+fpath=( "${ZDOTDIR:-$HOME}/.zfunctions" $fpath )
+
+# Set Spaceship ZSH as a prompt
+autoload -U promptinit; promptinit
+prompt spaceship
+
+export LC_ALL=en_US.UTF-8
+export PATH=${PATH}:${HOME}/.local/bin
+export PATH=${PATH}:${HOME}/.cargo/bin
+export PATH="${HOME}/.jenv/bin:${PATH}"
+export PATH="${HOME}/.yarn/bin:${HOME}/.config/yarn/global/node_modules/.bin:${PATH}"
+
+export AWS_REGION=eu-west-1
+export REGION=eu-west-1
+
+# This speeds up pasting w/ autosuggest
+# https://github.com/zsh-users/zsh-autosuggestions/issues/238
+pasteinit() {
+  OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
+  zle -N self-insert url-quote-magic # I wonder if you'd need `.url-quote-magic`?
+}
+
+pastefinish() {
+  zle -N self-insert $OLD_SELF_INSERT
+}
+zstyle :bracketed-paste-magic paste-init pasteinit
+zstyle :bracketed-paste-magic paste-finish pastefinish
+
+# https://github.com/zsh-users/zsh-autosuggestions/issues/351
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(bracketed-paste)
+
+# zsh helpers
+source "${HOME}/.zsh_aliases"
+source "${HOME}/.zsh_functions"
+source "${HOME}/.zsh_wtr_functions"
+source "${HOME}/.zsh_git_title"
+source "${HOME}/.zsh_prompt"
+
+{{- if eq .chezmoi.os "darwin" }}
+# iterm2
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+{{- end }}
+
+# import https://github.com/rupa/z
+source $(brew --prefix)/etc/profile.d/z.sh
+
+# jenv
+eval "$(jenv init -)"
+
+# direnv
+eval "$(direnv hook zsh)"
+
+# mcfly
+eval "$(mcfly init zsh)"
+
+# nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion 
+
+nvm use default
+
+# pyenv
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="${HOME}/.sdkman"
+[[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
