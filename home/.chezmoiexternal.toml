@@ -1,0 +1,19 @@
+[".slimzsh"]
+    type = "git-repo"
+    url = "https://github.com/changs/slimzsh.git"
+    refreshPeriod = "168h"
+
+[".zgen"]
+    type = "git-repo"
+    url = "https://github.com/tarjoilija/zgen.git"
+    refreshPeriod = "168h"
+
+[".config/nvim"]
+    type = "git-repo"
+    url = "https://github.com/AstroNvim/AstroNvim.git"
+    refreshPeriod = "168h"
+
+[".tmux/plugins/tpm"]
+    type = "git-repo"
+    url = "https://github.com/tmux-plugins/tpm.git"
+    refreshPeriod = "168h"
