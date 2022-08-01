@@ -1,5 +1,7 @@
+{{- if eq .chezmoi.os "linux" }}
 # homebrew
-eval "$($(brew --prefix)/bin/brew shellenv)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+{{- end }}
 
 # load slimzsh
 source "${HOME}/.slimzsh/slim.zsh"
