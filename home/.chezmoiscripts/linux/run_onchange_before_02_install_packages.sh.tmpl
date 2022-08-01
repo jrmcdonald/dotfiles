@@ -1,0 +1,29 @@
+{{- if eq .chezmoi.os "linux" -}}
+#!/usr/bin/env bash
+set -eufo pipefail
+
+{{ $packages := list
+     "python3-pip"
+     "python3-venv"
+     "wget"
+     "gnupg2"
+     "gnupg-agent"
+     "dirmngr"
+     "cryptsetup"
+     "scdaemon"
+     "pcscd"
+     "secure-delete"
+     "hopenpgp-tools"
+     "yubikey-personalization"
+     "fonts-jetbrains-mono"
+     "rofi" -}}
+
+{{ if .headless -}}
+  {{ $packages = concat $packages (list
+       "deja-dup"
+       "flameshot") -}}
+{{ end -}}
+
+sudo apt update
+sudo apt install -y {{ $packages | join " " }}
+{{- end }}

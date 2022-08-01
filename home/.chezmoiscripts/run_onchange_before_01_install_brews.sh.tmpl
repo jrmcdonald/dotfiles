@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -eufo pipefail
+
+{{ $brews := list
+      "awscli"
+      "bat"
+      "cfn-lint"
+      "curl"
+      "direnv"
+      "docker-credential-helper-ecr"
+      "exa"
+      "fd"
+      "git"
+      "git-cliff"
+      "git-delta"
+      "glances"
+      "helm"
+      "jenv"
+      "jq"
+      "kubernetes-cli"
+      "kubectx"
+      "liquibase"
+      "maven"
+      "neovim"
+      "nvm"
+      "ripgrep"
+      "skaffold"
+      "step"
+      "tmux"
+      "yq"
+      "z"
+      "zsh"
+      "cantino/mcfly/mcfly"
+      "derailed/k9s/k9s" -}}
+
+brew bundle --no-lock --file=/dev/stdin <<EOF
+{{ range ($brews | sortAlpha | uniq) -}}
+brew "{{ . }}"
+{{ end -}}
+EOF

@@ -1,0 +1,25 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/usr/bin/env bash
+set -eufo pipefail
+
+{{ $casks := list
+     "1password"
+     "1password-cli"
+     "dbeaver-community"
+     "font-fira-code"
+     "font-jetbrains-mono-nerd-font"
+     "gimp"
+     "istat-menus"
+     "jetbrains-toolbox"
+     "obsidian"
+     "postman"
+     "spectacle"
+     "zoom" -}}
+
+brew bundle --no-lock --file=/dev/stdin <<EOF
+{{ range ($casks | sortAlpha | uniq) -}}
+cask "{{ . }}"
+{{ end -}}
+EOF
+
+{{- end }}

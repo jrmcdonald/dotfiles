@@ -1,0 +1,13 @@
+{{- if and (eq .chezmoi.os "linux") (not .headless) -}}
+#!/usr/bin/env bash
+set -eufo pipefail
+
+{{ $flatpaks := list
+     "com.github.tchx84.Flatseal"
+     "com.mattjakeman.ExtensionManager"
+     "md.obsidian.Obsidian" -}}
+
+{{ range ($flatpaks | sortAlpha | uniq) -}}
+flatpak install flathub "{{ . }}"
+{{ end -}}
+{{- end }}

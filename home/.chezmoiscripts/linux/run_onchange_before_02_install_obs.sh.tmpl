@@ -1,0 +1,8 @@
+{{- if and (eq .chezmoi.os "linux") (not .headless) -}}
+#!/usr/bin/env bash
+set -eufo pipefail
+
+sudo add-apt-repository ppa:obsproject/obs-studio
+sudo apt update
+sudo apt install -y obs-studio
+{{- end }}
