@@ -1,3 +1,4 @@
+{{- if eq .chezmoi.os "linux" }}
 AGENT_SOCK=$(gpgconf --list-dirs | grep agent-socket | cut -d : -f 2)
 
 if [[ ! -S $AGENT_SOCK ]]; then
@@ -11,4 +12,5 @@ if [[ -r $GNUPGCONFIG ]] && command grep -q enable-ssh-support "$GNUPGCONFIG"; t
   export SSH_AUTH_SOCK="$AGENT_SOCK.ssh"
   unset SSH_AGENT_PID
 fi
+{{- end }}
 
