@@ -1,2 +1,4 @@
+{{- if not .ephemeral -}}
 [user]
   email = {{ (onepasswordDetailsFields "Waitrose SSO").username.value }}
+{{- end }}

@@ -30,5 +30,7 @@
 	gpgsign = true
 [gpg]
 	program = /usr/bin/gpg
+{{ if not .ephemeral -}}
 [includeIf "gitdir:~/Development/"]
 	path = ~/.config/git/waitrose.com
+{{- end }}

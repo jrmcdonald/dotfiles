@@ -1,3 +1,4 @@
+{{- if not .ephemeral -}}
 [profile sandbox]
 sso_start_url = {{ (onepasswordItemFields "Amazon AWS (Waitrose)").starturl.value }}
 sso_region = eu-west-1
@@ -37,4 +38,4 @@ sso_account_id = {{ (onepasswordItemFields "Amazon AWS (Waitrose)").prod.value }
 sso_role_name = DevUserProductionAccess
 region = eu-west-1
 output = json
-
+{{ end }}

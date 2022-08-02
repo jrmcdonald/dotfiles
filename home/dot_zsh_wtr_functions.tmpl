@@ -1,3 +1,4 @@
+{{- if not .ephemeral -}}
 #
 # Waitrose
 #
@@ -57,3 +58,4 @@ mssh_customer_db() {
 
  mssh -vvv -N -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -L 5432:{{- (onepasswordItemFields "Amazon AWS (Waitrose)").customerdb.value }}:5432 ${instance_id}
 }
+{{- end }}
