@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 set -e # -e: exit on error
 
@@ -17,8 +17,15 @@ else
   chezmoi=chezmoi
 fi
 
-if [ -d "~/.local/share/chezmoi/.git" ]; then
+if [ -d "${HOME}/.local/share/chezmoi/.git" ]; then
   chezmoi update --apply
 else
-  chezmoi init --apply jrmcdonald
+  if [[ ! -z "${REMOTE_INSTALL}" ]]; then
+    chezmoi init --apply jrmcdonald
+  else
+    # POSIX way to get script's dir: https://stackoverflow.com/a/29834779/12156188
+    script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
+    # exec: replace current process with chezmoi init
+    exec "$chezmoi" init --apply "--source=$script_dir"
+  fi
 fi
