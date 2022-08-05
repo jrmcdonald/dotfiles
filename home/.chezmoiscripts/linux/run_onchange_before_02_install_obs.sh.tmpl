@@ -2,6 +2,8 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
+printf "INFO: installing obs\n"
+
 sudo add-apt-repository ppa:obsproject/obs-studio
 sudo apt update
 sudo apt install -y obs-studio

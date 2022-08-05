@@ -3,6 +3,7 @@
 set -e # -e: exit on error
 
 if [ ! "$(command -v chezmoi)" ]; then
+  printf "INFO: Installing chezmoi\n"
   bin_dir="$HOME/.local/bin"
   chezmoi="$bin_dir/chezmoi"
   if [ "$(command -v curl)" ]; then
@@ -18,11 +19,14 @@ else
 fi
 
 if [ -d "${HOME}/.local/share/chezmoi/.git" ]; then
+  printf "INFO: dotfiles present... updating\n"
   chezmoi update --apply
 else
   if [[ ! -z "${REMOTE_INSTALL}" ]]; then
+    printf "INFO: dotfiles absent... init from github\n"
     chezmoi init --apply jrmcdonald
   else
+    printf "INFO: dotfiles absent... init from local\n"
     # POSIX way to get script's dir: https://stackoverflow.com/a/29834779/12156188
     script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
     # exec: replace current process with chezmoi init

@@ -3,17 +3,20 @@ set -eufo pipefail
 
 # sdkman
 if [ ! "$(command -v sdk)" ]; then
+  printf "INFO: installing sdkman\n"
   curl -s "https://get.sdkman.io?rcupdate=false" | bash
 fi
 
 # homebrew
 if [ ! "$(command -v brew)" ]; then
+  printf "INFO: installing homebrew\n"
   NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 {{ if .headless -}}
 # flatpak
 if [ ! "$(command -v flatpak)" ]; then
+  printf "INFO: installing flatpak\n"
   sudo apt update
   sudo apt install -y flatpak
   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

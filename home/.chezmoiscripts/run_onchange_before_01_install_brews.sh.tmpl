@@ -32,7 +32,8 @@ set -eufo pipefail
       "zsh"
       "cantino/mcfly/mcfly"
       "derailed/k9s/k9s" -}}
-
+	  
+printf "INFO: installing brews\n"
 brew bundle --no-lock --file=/dev/stdin <<EOF
 {{ range ($brews | sortAlpha | uniq) -}}
 brew "{{ . }}"

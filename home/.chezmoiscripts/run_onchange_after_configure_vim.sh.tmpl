@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
+printf "INFO: running packersync\n"
+
 # https://github.com/wbthomason/packer.nvim/issues/700
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'

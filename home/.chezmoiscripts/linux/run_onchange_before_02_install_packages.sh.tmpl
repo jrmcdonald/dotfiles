@@ -2,6 +2,8 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
+printf "INFO: installing linux packages\n"
+
 {{ $packages := list
      "python3-pip"
      "python3-venv"
