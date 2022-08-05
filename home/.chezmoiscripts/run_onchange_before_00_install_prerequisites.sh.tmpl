@@ -2,7 +2,7 @@
 set -eufo pipefail
 
 # sdkman
-if ! [ -x "$(command -v sdk)" ]; then
+if [ "$(type -t sdk)" != 'function' ]; then
   printf "INFO: installing sdkman\n"
   curl -s "https://get.sdkman.io?rcupdate=false" | bash
 fi
