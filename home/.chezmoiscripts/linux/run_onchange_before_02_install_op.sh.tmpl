@@ -17,7 +17,7 @@ curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --d
 {{ $packages := list
      "1password-cli" -}}
 
-{{ if not .headless -}}
+{{ if not .gitpod -}}
 {{   $packages = concat $packages (list
        "1password") -}}
 {{ end -}}

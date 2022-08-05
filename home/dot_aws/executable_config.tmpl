@@ -1,4 +1,4 @@
-{{- if not .ephemeral -}}
+{{- if not .gitpod -}}
 [profile sandbox]
 sso_start_url = {{ (onepasswordItemFields "Amazon AWS (Waitrose)").starturl.value }}
 sso_region = eu-west-1
