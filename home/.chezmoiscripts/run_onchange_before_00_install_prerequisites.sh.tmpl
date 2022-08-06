@@ -17,8 +17,8 @@ fi
 # flatpak
 if ! [ -x "$(command -v flatpak)" ]; then
   printf "INFO: installing flatpak\n"
-  sudo apt update
-  sudo apt install -y flatpak
+  sudo apt-get update
+  sudo apt-get install -y flatpak
   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 fi
 {{ end -}}
