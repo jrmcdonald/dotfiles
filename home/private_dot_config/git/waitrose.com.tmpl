@@ -1,4 +1,4 @@
-{{- if not .ephemeral -}}
+{{- if not .gitpod -}}
 [user]
   email = {{ (onepasswordDetailsFields "Waitrose SSO").username.value }}
 {{- end }}

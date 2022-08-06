@@ -62,7 +62,7 @@ ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(bracketed-paste)
 # zsh helpers
 source "${HOME}/.zsh_aliases"
 source "${HOME}/.zsh_functions"
-{{ if not .ephemeral -}}
+{{ if not .gitpod -}}
 source "${HOME}/.zsh_wtr_functions"
 {{- end }}
 source "${HOME}/.zsh_git_title"
