@@ -2,7 +2,7 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
-if [ ! "$(command -v docker)" ]; then
+if ! [ -x "$(command -v docker)" ]; then
 	printf "INFO: setting up docker\n"
 	
 	# https://docs.docker.com/engine/install/ubuntu/
