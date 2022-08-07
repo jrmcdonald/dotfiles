@@ -1,20 +1,17 @@
 {{/* boolean feature tags */}}
 {{- $docker := false -}}{{/* true if this machine should have Docker installed */}}
-{{- $ephemeral := false -}}{{/* true if this machine is ephemeral, e.g. a cloud or VM instance */}}
-{{- $headless := false -}}{{/* true if this machine does not have a screen and keyboard */}}
+{{- $gitpod := false -}}{{/* true if this machine is gitpod */}}
 {{- "" -}}
 
-{{/* detect GitHub codespaces, VSCode remote containers, Docker containers, Multipass VMs, and Vagrant boxes */}}
-{{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS_IPC") (env "GITPOD_WORKSPACE_ID") (eq .chezmoi.username "root" "ubuntu" "vagrant" "vscode") -}}
-{{-   $ephemeral = true -}}
-{{-   $headless = true -}}
+{{/* detect Gitpod */}}
+{{- if or (env "GITPOD_WORKSPACE_ID") (env "GITPOD_BUILD") -}}
+{{-   $gitpod = true -}}
 {{- end -}}
 
-{{- if not $ephemeral -}}
+{{- if not $gitpod -}}
 {{-   $docker = true -}}
 {{- end -}}
 
 [data]
     docker = {{ $docker }}
-    ephemeral = {{ $ephemeral }}
-    headless = {{ $headless }}
+    gitpod = {{ $gitpod }}

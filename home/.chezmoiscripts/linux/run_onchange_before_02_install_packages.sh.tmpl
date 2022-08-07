@@ -20,7 +20,7 @@ printf "INFO: installing linux packages\n"
      "fonts-jetbrains-mono"
      "rofi" -}}
 
-{{ if .headless -}}
+{{ if .gitpod -}}
   {{ $packages = concat $packages (list
        "deja-dup"
        "flameshot") -}}

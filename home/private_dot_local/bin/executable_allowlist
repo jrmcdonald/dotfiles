@@ -1,4 +1,6 @@
+{{- if not .gitpod -}}
 #!/usr/bin/env zsh
 
 ip=$(curl -s https://ipv4.icanhazip.com)
 echo "/ip-allowlist ${ip}" | xclip -selection c
+{{- end }}
