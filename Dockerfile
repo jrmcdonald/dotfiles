@@ -6,8 +6,8 @@ WORKDIR /dotfiles
 
 RUN sh -c "$(curl -fsLS https://chezmoi.io/get)" -- -b $HOME/.local/bin
 
-RUN GITPOD_BUILD=1 $HOME/.local/bin/chezmoi init --source=.
+RUN GITPOD_BUILD=1 $HOME/.local/bin/chezmoi init
 
-RUN $HOME/.local/bin/chezmoi apply --include=scripts
+RUN GITPOD_BUILD=1 $HOME/.local/bin/chezmoi apply --source=/dotfiles --include=scripts
 
 WORKDIR $HOME
