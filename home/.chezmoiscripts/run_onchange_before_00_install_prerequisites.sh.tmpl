@@ -13,7 +13,7 @@ if ! [ -x "$(command -v brew)" ]; then
   NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-{{ if .headless -}}
+{{ if not .headless -}}
 # flatpak
 if ! [ -x "$(command -v flatpak)" ]; then
   printf "INFO: installing flatpak\n"
