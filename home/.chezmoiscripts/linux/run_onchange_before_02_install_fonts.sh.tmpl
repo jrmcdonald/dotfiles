@@ -1,0 +1,8 @@
+{{- if eq .chezmoi.os "linux" -}}
+#!/usr/bin/env bash
+set -eufo pipefail
+
+printf "INFO: installing jetbrains mono\n"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)"
+
+{{- end }}
