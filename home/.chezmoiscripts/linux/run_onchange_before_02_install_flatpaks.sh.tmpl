@@ -2,6 +2,8 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
+printf "INFO: installing flatpaks\n"
+
 {{ $flatpaks := list
      "com.github.tchx84.Flatseal"
      "com.mattjakeman.ExtensionManager"
