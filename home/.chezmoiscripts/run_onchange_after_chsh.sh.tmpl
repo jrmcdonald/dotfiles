@@ -3,4 +3,4 @@ set -eufo pipefail
 
 printf "INFO: change shell to zsh\n"
 
-chsh -s /usr/bin/zsh
+sudo chsh -s $(which zsh) $(whoami)
