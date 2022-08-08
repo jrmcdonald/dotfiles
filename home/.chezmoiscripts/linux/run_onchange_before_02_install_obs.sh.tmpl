@@ -2,9 +2,12 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
-printf "INFO: installing obs\n"
+. "$(chezmoi source-path)/../lib/log.sh"
 
-sudo add-apt-repository ppa:obsproject/obs-studio
+log_info "installing obs"
+sudo add-apt-repository ppa:obsproject/obs-studio -y
 sudo apt-get update
 sudo apt-get install -y obs-studio
+log_info_complete
+
 {{- end }}

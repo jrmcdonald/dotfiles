@@ -2,7 +2,10 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
-printf "INFO: installing jetbrains mono\n"
+. "$(chezmoi source-path)/../lib/log.sh"
+
+log_info "installing jetbrains mono"
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)"
+log_info_complete
 
 {{- end }}

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
+. "$(chezmoi source-path)/../lib/log.sh"
+
 {{ $brews := list
       "awscli"
       "bat"
@@ -33,9 +35,10 @@ set -eufo pipefail
       "mcfly"
       "k9s" -}}
 	  
-printf "INFO: installing brews\n"
+log_info "installing common brews"
 brew bundle --no-lock --file=/dev/stdin <<EOF
 {{ range ($brews | sortAlpha | uniq) -}}
 brew "{{ . }}"
 {{ end -}}
 EOF
+log_info_complete

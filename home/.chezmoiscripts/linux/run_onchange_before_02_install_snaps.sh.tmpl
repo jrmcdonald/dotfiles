@@ -2,7 +2,7 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
-printf "INFO: installing snaps\n"
+. "$(chezmoi source-path)/../lib/log.sh"
 
 {{ $snaps := list
      "chromium"
@@ -16,7 +16,10 @@ printf "INFO: installing snaps\n"
      "slack"
      "todoist" -}}
 
+log_info "installing snaps"
 {{ range ($snaps | sortAlpha | uniq) -}}
 sudo snap install "{{ . }}"
 {{ end -}}
+log_info_complete
+
 {{- end }}

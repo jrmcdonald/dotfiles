@@ -2,7 +2,7 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
-printf "INFO: installing linux packages\n"
+. "$(chezmoi source-path)/../lib/log.sh"
 
 {{ $packages := list
      "python3-pip"
@@ -25,6 +25,9 @@ printf "INFO: installing linux packages\n"
        "flameshot") -}}
 {{ end -}}
 
+log_info "installing linux packages"
 sudo apt-get update
 sudo apt-get install -y {{ $packages | join " " }}
+log_info_complete
+
 {{- end }}

@@ -2,14 +2,17 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
-printf "INFO: installing flatpaks\n"
+. "$(chezmoi source-path)/../lib/log.sh"
 
 {{ $flatpaks := list
      "com.github.tchx84.Flatseal"
      "com.mattjakeman.ExtensionManager"
      "md.obsidian.Obsidian" -}}
 
+log_info "installing flatpaks"
 {{ range ($flatpaks | sortAlpha | uniq) -}}
 flatpak install flathub "{{ . }}"
 {{ end -}}
+log_info_complete
+
 {{- end }}

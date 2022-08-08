@@ -2,6 +2,8 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
+. "$(chezmoi source-path)/../lib/log.sh"
+
 {{ $casks := list
      "1password"
      "1password-cli"
@@ -16,10 +18,12 @@ set -eufo pipefail
      "spectacle"
      "zoom" -}}
 
+log_info "installing macos brews"
 brew bundle --no-lock --file=/dev/stdin <<EOF
 {{ range ($casks | sortAlpha | uniq) -}}
 cask "{{ . }}"
 {{ end -}}
 EOF
+log_info_complete
 
 {{- end }}

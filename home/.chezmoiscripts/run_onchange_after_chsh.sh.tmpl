@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
-printf "INFO: change shell to zsh\n"
+. "$(chezmoi source-path)/../lib/log.sh"
 
-sudo chsh -s $(which zsh) $(whoami)
+log_info "changing shell to zsh"
+sudo chsh -s "$(which zsh)" "$(whoami)"
+log_info_complete
