@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -eufo pipefail
+
+if [ -d "${HOME}/.config/nvim" ]; then
+  printf "INFO: running nvim packersync\n"
+  # https://github.com/wbthomason/packer.nvim/issues/700
+  nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+fi
