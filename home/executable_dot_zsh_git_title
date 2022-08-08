@@ -9,6 +9,8 @@ function git_repo_name {
 
 function precmd {
   name=$(git_repo_name)
-  tmux rename-window "${name}"
+  if [ "${TMUX}" ]; then
+    tmux rename-window "${name}"
+  fi
   echo -ne "\e]1;${name}\a"
 }
