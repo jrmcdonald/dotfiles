@@ -6,21 +6,21 @@ printf "INFO: installing linux packages\n"
 
 {{ $packages := list
      "python3-pip"
-     "python3-venv"
-     "wget"
-     "gnupg2"
-     "gnupg-agent"
-     "dirmngr"
-     "cryptsetup"
-     "scdaemon"
-     "pcscd"
-     "secure-delete"
-     "hopenpgp-tools"
-     "yubikey-personalization"
-     "rofi" -}}
+     "python3-venv" -}}
 
-{{ if .gitpod -}}
+{{ if not .gitpod -}}
   {{ $packages = concat $packages (list
+       "wget"
+       "gnupg2"
+       "gnupg-agent"
+       "dirmngr"
+       "cryptsetup"
+       "scdaemon"
+       "pcscd"
+       "secure-delete"
+       "hopenpgp-tools"
+       "yubikey-personalization"
+       "rofi"
        "deja-dup"
        "flameshot") -}}
 {{ end -}}
