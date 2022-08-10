@@ -10,6 +10,7 @@ set -eufo pipefail
 
 {{ if not .gitpod -}}
   {{ $packages = concat $packages (list
+       "zsh"
        "wget"
        "gnupg2"
        "gnupg-agent"
