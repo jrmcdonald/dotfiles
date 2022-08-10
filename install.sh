@@ -10,6 +10,12 @@ fi
 if [ ! "$(command -v chezmoi)" ]; then
   printf "INFO: installing chezmoi\n"
   bin_dir="$HOME/.local/bin"
+
+  if ! [[ ":$PATH:" == *":${bin_dir}:"* ]]; then
+    printf "ERROR: Please add ${bin_dir} to your path to execute chezmoi.\n" >&2
+    exit 1
+  fi
+
   chezmoi="$bin_dir/chezmoi"
   sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b "$bin_dir"
 else
