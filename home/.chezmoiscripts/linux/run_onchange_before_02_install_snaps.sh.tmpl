@@ -18,7 +18,7 @@ set -eufo pipefail
 
 log_info "installing snaps"
 {{ range ($snaps | sortAlpha | uniq) -}}
-sudo snap install "{{ . }}"
+sudo snap install --classic "{{ . }}"
 {{ end -}}
 log_info_complete
 
