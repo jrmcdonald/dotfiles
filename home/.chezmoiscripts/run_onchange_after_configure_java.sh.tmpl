@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -eufo pipefail
+
+. "$(chezmoi source-path)/../lib/log.sh"
+
+log_info "installing java versions"
+
+# sdkman-init.sh has unbound variables and requires glob expansion
+set +uf
+
+export SDKMAN_DIR="${HOME}/.sdkman"
+[[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
+
+# remove linuxbrew from the path as it has issues with lchmod and the way sdk packages zip files
+path_without_linuxbrew=$(tr ":" "\n" <<<"$PATH" | grep -v "linuxbrew" | paste -sd:)
+export PATH=${path_without_linuxbrew}
+
+echo n | sdk install java 8.0.345-tem || true
+echo n | sdk install java 11.0.16-tem || true
+echo y | sdk install java 17.0.4-tem || true
+
+set -uf
+
+log_info_complete
