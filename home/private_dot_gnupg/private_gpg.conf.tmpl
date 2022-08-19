@@ -1,3 +1,4 @@
+{{ if not .gitpod -}}
 # https://github.com/drduh/config/blob/master/gpg.conf
 # https://www.gnupg.org/documentation/manuals/gnupg/GPG-Configuration-Options.html
 # https://www.gnupg.org/documentation/manuals/gnupg/GPG-Esoteric-Options.html
@@ -59,3 +60,4 @@ throw-keyids
 #verbose
 # Show expired subkeys
 #list-options show-unusable-subkeys
+{{ end -}}

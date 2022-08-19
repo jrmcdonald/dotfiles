@@ -1,3 +1,4 @@
+{{- if not .gitpod -}}
 #!/usr/bin/env python3
 
 import sqlite3
@@ -95,3 +96,4 @@ if __name__ == "__main__":
         profile_path = default_profile_path() if args.profile is None else path_from_name(args.profile)
 
         write_rofi_input(profile_path, search_path=search_path, sep=args.separator)
+{{ end -}}

@@ -1,6 +1,8 @@
+{{- if not .gitpod -}}
 Host github.com
     IdentitiesOnly yes
     IdentityFile ~/.ssh/id_rsa_yubikey.pub
 Host gitlab.com
     IdentitiesOnly yes
     IdentityFile ~/.ssh/id_rsa_yubikey.pub
+{{ end -}}

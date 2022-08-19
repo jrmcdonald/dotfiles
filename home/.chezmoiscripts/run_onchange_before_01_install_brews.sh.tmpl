@@ -1,3 +1,4 @@
+{{ if not .gitpod -}}
 #!/usr/bin/env bash
 set -eufo pipefail
 
@@ -41,3 +42,4 @@ brew "{{ . }}"
 {{ end -}}
 EOF
 log_info_complete
+{{ end -}}

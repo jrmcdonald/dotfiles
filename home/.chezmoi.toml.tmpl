@@ -4,14 +4,9 @@
 {{- "" -}}
 
 {{/* detect Gitpod */}}
-{{- if or (env "GITPOD_WORKSPACE_ID") (env "GITPOD_BUILD") -}}
+{{- if env "GITPOD_WORKSPACE_ID" -}}
 {{-   $gitpod = true -}}
 {{- end -}}
 
-{{- if not $gitpod -}}
-{{-   $docker = true -}}
-{{- end -}}
-
 [data]
-    docker = {{ $docker }}
     gitpod = {{ $gitpod }}

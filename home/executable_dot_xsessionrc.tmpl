@@ -1,4 +1,4 @@
-{{- if eq .chezmoi.os "linux" -}}
+{{- if and (eq .chezmoi.os "linux") (not .gitpod) -}}
 AGENT_SOCK=$(gpgconf --list-dirs | grep agent-socket | cut -d : -f 2)
 
 if [[ ! -S $AGENT_SOCK ]]; then

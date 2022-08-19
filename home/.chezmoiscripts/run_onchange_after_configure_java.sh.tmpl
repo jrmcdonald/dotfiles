@@ -15,8 +15,10 @@ export SDKMAN_DIR="${HOME}/.sdkman"
 path_without_linuxbrew=$(tr ":" "\n" <<<"$PATH" | grep -v "linuxbrew" | paste -sd:)
 export PATH=${path_without_linuxbrew}
 
+{{ if not .gitpod -}}
 echo n | sdk install java 8.0.345-tem || true
 echo n | sdk install java 11.0.16-tem || true
+{{ end -}}
 echo y | sdk install java 17.0.4-tem || true
 
 set -uf

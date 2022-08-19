@@ -1,3 +1,4 @@
+{{ if not .gitpod -}}
 #!/usr/bin/env bash
 set -eufo pipefail
 
@@ -6,3 +7,4 @@ set -eufo pipefail
 log_info "changing shell to zsh"
 sudo chsh -s "$(which zsh)" "$(whoami)"
 log_info_complete
+{{ end -}}

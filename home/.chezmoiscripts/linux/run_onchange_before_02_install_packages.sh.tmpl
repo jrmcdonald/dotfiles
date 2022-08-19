@@ -1,30 +1,26 @@
-{{- if eq .chezmoi.os "linux" -}}
+{{- if and (eq .chezmoi.os "linux") (not .gitpod) -}}
 #!/usr/bin/env bash
 set -eufo pipefail
 
 . "$(chezmoi source-path)/../lib/log.sh"
 
 {{ $packages := list
-     "python3-pip"
-     "python3-venv" -}}
-
-{{ if not .gitpod -}}
-  {{ $packages = concat $packages (list
-       "zsh"
-       "wget"
-       "gnupg2"
-       "gnupg-agent"
-       "dirmngr"
-       "cryptsetup"
-       "scdaemon"
-       "pcscd"
-       "secure-delete"
-       "hopenpgp-tools"
-       "yubikey-personalization"
-       "rofi"
-       "deja-dup"
-       "flameshot") -}}
-{{ end -}}
+    "python3-pip"
+    "python3-venv"
+    "zsh"
+    "wget"
+    "gnupg2"
+    "gnupg-agent"
+    "dirmngr"
+    "cryptsetup"
+    "scdaemon"
+    "pcscd"
+    "secure-delete"
+    "hopenpgp-tools"
+    "yubikey-personalization"
+    "rofi"
+    "deja-dup"
+    "flameshot" -}}
 
 log_info "installing linux packages"
 sudo apt-get update

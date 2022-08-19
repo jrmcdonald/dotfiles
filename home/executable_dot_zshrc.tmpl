@@ -35,7 +35,9 @@ export LC_ALL=en_US.UTF-8
 export PATH=${PATH}:${HOME}/.local/bin
 export PATH=${PATH}:${HOME}/.cargo/bin
 export PATH="${HOME}/.jenv/bin:${PATH}"
+{{- if not .gitpod }}
 export PATH="${HOME}/.yarn/bin:${HOME}/.config/yarn/global/node_modules/.bin:${PATH}"
+{{- end }}
 
 # set neovim as editor
 export EDITOR="nvim"
@@ -73,6 +75,7 @@ source "${HOME}/.zsh_prompt"
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 {{- end }}
 
+{{- if not .gitpod }}
 # import https://github.com/rupa/z
 source $(brew --prefix)/etc/profile.d/z.sh
 
@@ -82,15 +85,16 @@ eval "$(jenv init -)"
 # direnv
 eval "$(direnv hook zsh)"
 
-# mcfly
-eval "$(mcfly init zsh)"
-
 # nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion 
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 nvm use default
+{{- end }}
+
+# mcfly
+eval "$(mcfly init zsh)"
 
 # pyenv
 if command -v pyenv 1>/dev/null 2>&1; then

@@ -1,3 +1,4 @@
+{{ if not .gitpod -}}
 # https://github.com/drduh/config/blob/master/gpg-agent.conf
 # https://www.gnupg.org/documentation/manuals/gnupg/Agent-Options.html
 enable-ssh-support
@@ -13,3 +14,4 @@ pinentry-program /usr/bin/pinentry-gnome3
 #pinentry-program /usr/local/bin/pinentry-curses
 #pinentry-program /usr/local/bin/pinentry-mac
 #pinentry-program /opt/homebrew/bin/pinentry-mac
+{{ end -}}

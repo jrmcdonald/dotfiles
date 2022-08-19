@@ -1,3 +1,6 @@
+{{- if not .gitpod -}}
 {{ range (gitHubKeys "jrmcdonald") -}}
 {{   .Key }}
 {{ end -}}
+{{ end -}}
+
