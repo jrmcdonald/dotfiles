@@ -9,10 +9,10 @@ set -eufo pipefail
      "com.mattjakeman.ExtensionManager"
      "md.obsidian.Obsidian" -}}
 
-log_info "installing flatpaks"
+log::info "installing flatpaks"
 {{ range ($flatpaks | sortAlpha | uniq) -}}
 flatpak install flathub --noninteractive --assumeyes "{{ . }}"
 {{ end -}}
-log_info_complete
+log::info::complete
 
 {{- end }}

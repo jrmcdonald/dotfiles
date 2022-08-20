@@ -6,11 +6,11 @@ set -eufo pipefail
 
 export PATH="${PATH}:${HOME}/.cargo/bin"
 
-log_info "installing rust"
+log::info "installing rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-log_info_complete
+log::info::complete
 
-log_info "installing alacritty"
+log::info "installing alacritty"
 
 {{ $packages := list
   "cmake" 
@@ -45,6 +45,6 @@ sudo update-desktop-database
 
 cd -
 
-log_info_complete
+log::info::complete
 
 {{- end }}

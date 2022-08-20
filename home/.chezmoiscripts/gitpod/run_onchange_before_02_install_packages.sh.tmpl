@@ -14,10 +14,10 @@ set -eufo pipefail
      "nixpkgs.ripgrep"
      "nixpkgs.tmux" -}}
 
-log_info "installing nix packages"
+log::info "installing nix packages"
 {{ range ($packages | sortAlpha | uniq) -}}
 nix-env -iA "{{ . }}"
 {{ end -}}
-log_info_complete
+log::info::complete
 
 {{- end }}

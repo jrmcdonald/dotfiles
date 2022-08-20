@@ -19,12 +19,12 @@ set -eufo pipefail
      "spectacle"
      "zoom" -}}
 
-log_info "installing macos brews"
+log::info "installing macos brews"
 brew bundle --no-lock --file=/dev/stdin <<EOF
 {{ range ($casks | sortAlpha | uniq) -}}
 cask "{{ . }}"
 {{ end -}}
 EOF
-log_info_complete
+log::info::complete
 
 {{- end }}

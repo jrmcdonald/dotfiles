@@ -3,7 +3,7 @@ set -eufo pipefail
 
 . "$(chezmoi source-path)/../lib/log.sh"
 
-log_info "installing java versions"
+log::info "installing java versions"
 
 # sdkman-init.sh has unbound variables and requires glob expansion
 set +uf
@@ -23,4 +23,4 @@ echo y | sdk install java 17.0.4-tem || true
 
 set -uf
 
-log_info_complete
+log::info::complete

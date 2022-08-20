@@ -4,7 +4,7 @@ set -eufo pipefail
 
 . "$(chezmoi source-path)/../lib/log.sh"
 
-log_info "installing 1password"
+log::info "installing 1password"
 
 curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --batch --yes --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
 
@@ -25,6 +25,6 @@ curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --b
 sudo apt-get update
 sudo apt-get install -y {{ $packages | join " " }}
 
-log_info_complete
+log::info::complete
 
 {{- end }}

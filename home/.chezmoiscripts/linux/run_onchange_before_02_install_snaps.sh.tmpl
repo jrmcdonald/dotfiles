@@ -16,10 +16,10 @@ set -eufo pipefail
      "slack"
      "todoist" -}}
 
-log_info "installing snaps"
+log::info "installing snaps"
 {{ range ($snaps | sortAlpha | uniq) -}}
 sudo snap install --classic "{{ . }}"
 {{ end -}}
-log_info_complete
+log::info::complete
 
 {{- end }}

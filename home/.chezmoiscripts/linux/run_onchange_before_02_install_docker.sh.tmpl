@@ -5,7 +5,7 @@ set -eufo pipefail
 . "$(chezmoi source-path)/../lib/log.sh"
 
 if ! [ -x "$(command -v docker)" ]; then
-	log_info "setting up docker"
+	log::info "setting up docker"
 	
 	# https://docs.docker.com/engine/install/ubuntu/
 	
@@ -32,7 +32,7 @@ if ! [ -x "$(command -v docker)" ]; then
 	
 	sudo usermod $USER --append --group docker
 
-    log_info_complete
+    log::info::complete
 fi
 
 {{ end -}}

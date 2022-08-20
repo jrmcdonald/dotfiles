@@ -35,11 +35,11 @@ set -eufo pipefail
       "mcfly"
       "k9s" -}}
 	  
-log_info "installing common brews"
+log::info "installing common brews"
 brew bundle --no-lock --file=/dev/stdin <<EOF
 {{ range ($brews | sortAlpha | uniq) -}}
 brew "{{ . }}"
 {{ end -}}
 EOF
-log_info_complete
+log::info::complete
 {{ end -}}

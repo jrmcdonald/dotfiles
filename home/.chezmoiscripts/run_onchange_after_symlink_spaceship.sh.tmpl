@@ -3,7 +3,7 @@ set -eufo pipefail
 
 . "$(chezmoi source-path)/../lib/log.sh"
 
-log_info "symlinking spaceship prompt"
+log::info "symlinking spaceship prompt"
 
 if [ ! -d "${HOME}/.zfunctions" ]; then
   mkdir "${HOME}/.zfunctions"
@@ -11,4 +11,4 @@ fi
 
 ln -sf "${HOME}/.zgen/spaceship-prompt/spaceship-prompt-master/spaceship.zsh" "${HOME}/.zfunctions/prompt_spaceship_setup"
 
-log_info_complete
+log::info::complete

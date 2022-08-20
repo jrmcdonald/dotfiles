@@ -5,5 +5,5 @@ printf '' > "$(chezmoi source-path)"/debug-log.txt
 
 . "$(chezmoi source-path)/../lib/log.sh"
 
-log_start_msg
+log::start
 

@@ -22,9 +22,9 @@ set -eufo pipefail
     "deja-dup"
     "flameshot" -}}
 
-log_info "installing linux packages"
+log::info "installing linux packages"
 sudo apt-get update
 sudo apt-get install -y {{ $packages | join " " }}
-log_info_complete
+log::info::complete
 
 {{- end }}

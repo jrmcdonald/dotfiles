@@ -4,8 +4,8 @@ set -eufo pipefail
 . "$(chezmoi source-path)/../lib/log.sh"
 
 if [ -d "${HOME}/.tmux/plugins/tpm" ]; then
-  log_info "installing tmux plugins"
+  log::info "installing tmux plugins"
   # https://github.com/tmux-plugins/tpm/blob/master/docs/automatic_tpm_installation.md
   ${HOME}/.tmux/plugins/tpm/bin/install_plugins
-  log_info_complete
+  log::info::complete
 fi

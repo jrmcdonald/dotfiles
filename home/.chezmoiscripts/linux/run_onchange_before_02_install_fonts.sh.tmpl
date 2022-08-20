@@ -4,8 +4,8 @@ set -eufo pipefail
 
 . "$(chezmoi source-path)/../lib/log.sh"
 
-log_info "installing jetbrains mono"
+log::info "installing jetbrains mono"
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)"
-log_info_complete
+log::info::complete
 
 {{- end }}
