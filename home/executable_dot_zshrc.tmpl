@@ -64,10 +64,13 @@ ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(bracketed-paste)
 # zsh helpers
 source "${HOME}/.zsh_aliases"
 source "${HOME}/.zsh_functions"
-{{ if not .gitpod -}}
+{{- if not .gitpod }}
 source "${HOME}/.zsh_wtr_functions"
 {{- end }}
 source "${HOME}/.zsh_git_title"
+{{- if .gitpod }}
+source "${HOME}/.zsh_gitpod"
+{{- end }}
 source "${HOME}/.zsh_prompt"
 
 {{- if eq .chezmoi.os "darwin" }}
