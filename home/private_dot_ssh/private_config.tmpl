@@ -5,4 +5,11 @@ Host github.com
 Host gitlab.com
     IdentitiesOnly yes
     IdentityFile ~/.ssh/id_rsa_yubikey.pub
+Host *.ssh.ws*.gitpod.io
+    ServerAliveInterval 15
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/id_rsa_yubikey.pub
+    PubKeyAcceptedAlgorithms +ssh-rsa
+    RemoteForward /home/gitpod/.gnupg/S.gpg-agent /run/user/1000/gnupg/S.gpg-agent.extra
+    StreamLocalBindUnlink yes
 {{ end -}}
