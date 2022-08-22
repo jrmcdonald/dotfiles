@@ -1,0 +1,5 @@
+tasks:
+  - before: |
+      curl https://keybase.io/jrmcdonald/pgp_keys.asc | gpg --import
+      gpgconf --kill gpg-agent
+      git config --global user.signingkey 378F7ADE3FC73F27
