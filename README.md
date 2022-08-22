@@ -8,7 +8,7 @@ Dotfiles, managed with [`chezmoi`](https://github.com/twpayne/chezmoi).
 
 ### Run setup script ###
 ```shell
-curl -fsSL https://raw.githubusercontent.com/jrmcdonald/dotfiles/main/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/jrmcdonald/dotfiles/main/install.sh | bash
 ```
 
 [Source](./install.sh)
