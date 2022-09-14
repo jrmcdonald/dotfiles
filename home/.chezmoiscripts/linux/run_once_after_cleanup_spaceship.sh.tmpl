@@ -1,0 +1,13 @@
+{{- if and (eq .chezmoi.os "linux") (not .gitpod) -}}
+#!/usr/bin/env bash
+set -eufo pipefail
+
+. "$(chezmoi source-path)/../lib/log.sh"
+
+if [ -d "${HOME}/.zgen/spaceship-prompt" ]; then
+  log::info "cleaning up spaceship"
+  rm -rf ${HOME}/.zgen/spaceship-prompt
+  log::info::complete
+fi
+
+{{- end }}

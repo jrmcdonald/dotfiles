@@ -19,17 +19,9 @@ if ! zgen saved; then
     zgen load paulirish/git-open
     zgen load johanhaleby/kubetail
     zgen load gradle/gradle-completion
-    zgen load spaceship-prompt/spaceship-prompt spaceship
 
     zgen save
 fi
-
-# load spaceship symlink
-fpath=( "${ZDOTDIR:-$HOME}/.zfunctions" $fpath )
-
-# Set Spaceship ZSH as a prompt
-autoload -U promptinit; promptinit
-prompt spaceship
 
 export LC_ALL=en_US.UTF-8
 export PATH=${PATH}:${HOME}/.local/bin
@@ -71,7 +63,6 @@ source "${HOME}/.zsh_git_title"
 {{- if .gitpod }}
 source "${HOME}/.zsh_gitpod"
 {{- end }}
-source "${HOME}/.zsh_prompt"
 
 {{- if eq .chezmoi.os "darwin" }}
 # iterm2
