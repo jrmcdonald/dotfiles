@@ -4,6 +4,14 @@ set -eufo pipefail
 
 . "$(chezmoi source-path)/../lib/log.sh"
 
+{{ $brews := list
+     "gnupg"
+     "yubikey-personalization"
+     "hopenpgp-tools"
+     "ykman"
+     "pinentry-mac"
+     "wget" -}}
+
 {{ $casks := list
      "alacritty"
      "1password"
@@ -21,6 +29,9 @@ set -eufo pipefail
 
 log::info "installing macos brews"
 brew bundle --no-lock --file=/dev/stdin <<EOF
+{{ range ($brews | sortAlpha | uniq) -}}
+brew "{{ . }}"
+{{ end -}}
 {{ range ($casks | sortAlpha | uniq) -}}
 cask "{{ . }}"
 {{ end -}}

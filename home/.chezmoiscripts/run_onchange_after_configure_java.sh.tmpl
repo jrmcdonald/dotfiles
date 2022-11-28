@@ -11,9 +11,11 @@ set +uf
 export SDKMAN_DIR="${HOME}/.sdkman"
 [[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
 
+{{- if and (eq .chezmoi.os "linux") (not .gitpod) -}}
 # remove linuxbrew from the path as it has issues with lchmod and the way sdk packages zip files
 path_without_linuxbrew=$(tr ":" "\n" <<<"$PATH" | grep -v "linuxbrew" | paste -sd:)
 export PATH=${path_without_linuxbrew}
+{{ end -}}
 
 {{ if not .gitpod -}}
 echo n | sdk install java 8.0.345-tem || true

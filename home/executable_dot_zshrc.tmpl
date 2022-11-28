@@ -65,8 +65,9 @@ source "${HOME}/.zsh_gitpod"
 {{- end }}
 
 {{- if eq .chezmoi.os "darwin" }}
-# iterm2
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+export GPG_TTY="$(tty)"
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpgconf --launch gpg-agent
 {{- end }}
 
 {{- if not .gitpod }}
