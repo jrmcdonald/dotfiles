@@ -2,5 +2,10 @@
 #!/usr/bin/env zsh
 
 id="${1}"
+{{ if eq .chezmoi.os "linux" -}}
 xdg-open {{ (onepasswordItemFields "Amazon AWS (Waitrose)").jiraurl.value }}
+{{- end }}
+{{- if eq .chezmoi.os "darwin" -}}
+open {{ (onepasswordItemFields "Amazon AWS (Waitrose)").jiraurl.value }}
+{{- end }}
 {{- end }}

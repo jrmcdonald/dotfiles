@@ -2,5 +2,11 @@
 #!/usr/bin/env zsh
 
 ip=$(curl -s https://ipv4.icanhazip.com)
+{{ if eq .chezmoi.os "linux" -}}
 echo "/ip-allowlist ${ip}" | xclip -selection c
+{{- end }}
+{{- if eq .chezmoi.os "darwin" -}}
+echo "/ip-allowlist ${ip}" | pbcopy
+{{- end }}
+
 {{- end }}
