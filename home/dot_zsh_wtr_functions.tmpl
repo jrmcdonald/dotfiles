@@ -58,4 +58,15 @@ mssh_customer_db() {
 
  mssh -vvv -N -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -L 5432:{{- (onepasswordItemFields "Amazon AWS (Waitrose)").customerdb.value }}:5432 ${instance_id}
 }
+
+aws_customer_db_auth() {
+  cluster_endpoint=$(aws rds describe-db-cluster-endpoints --filters "Name=db-cluster-endpoint-type,Values=READER" \
+                    | jq -r '.DBClusterEndpoints[] | select(.Endpoint | contains("customer")) | .Endpoint')
+
+  aws rds generate-db-auth-token \
+      --hostname ${cluster_endpoint} \
+      --port 5432 \
+      --username wtrops \
+      --region eu-west-1
+}
 {{- end }}
