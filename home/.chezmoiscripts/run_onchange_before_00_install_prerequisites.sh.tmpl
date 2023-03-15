@@ -32,7 +32,7 @@ if ! [ -x "$(command -v nvm)" ]; then
   log::info::complete
 fi
 
-{{- if and (eq .chezmoi.os "linux") (not .gitpod) -}}
+{{- if and (eq .chezmoi.os "linux") (not .gitpod) }}
 # flatpak
 if ! [ -x "$(command -v flatpak)" ]; then
   log::info "installing flatpak"
@@ -41,5 +41,5 @@ if ! [ -x "$(command -v flatpak)" ]; then
   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   log::info::complete
 fi
-{{ end -}}
-{{ end -}}
+{{- end }}
+{{- end }}
