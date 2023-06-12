@@ -67,7 +67,10 @@ source "${HOME}/.zsh_git_title"
 source "${HOME}/.zsh_gitpod"
 {{- end }}
 
-{{- if eq .chezmoi.os "darwin" }}
+source <(kubectl completion zsh)
+complete -F __start_kubectl k
+
+{{ if eq .chezmoi.os "darwin" }}
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 gpgconf --launch gpg-agent
