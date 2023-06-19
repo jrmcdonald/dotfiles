@@ -68,7 +68,6 @@ source "${HOME}/.zsh_gitpod"
 {{- end }}
 
 source <(kubectl completion zsh)
-complete -F __start_kubectl k
 
 {{ if eq .chezmoi.os "darwin" }}
 export GPG_TTY="$(tty)"
