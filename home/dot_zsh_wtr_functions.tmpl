@@ -54,20 +54,42 @@ cfn_nag_scan() {
   docker run -ti --rm -v $(pwd):/apps -w /apps alpine/cfn-nag $@
 }
 
-mssh_customer_db() {
+mssh-get-instance-id() {
+     env=${1:-dev}
+
+     aws ec2 describe-instances \
+        --filter "Name=tag:aws:cloudformation:stack-name,Values={{- (onepasswordItemFields "Amazon AWS (Waitrose)").jumphost.value }}" \
+        --query "Reservations[].Instances[?State.Name == 'running'].InstanceId[]" \
+        --output text
+}
+
+mssh-to-instance() {
     env=${1:-dev}
+    shift
+    opts=${@}
+
+    instance_id=$(mssh-get-instance-id ${env})
+
+    mssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ${opts} ${instance_id}
+}
+
+mssh-port-forward() {
+    env=${1:-dev}
+    host=${2}
+    port=${3}
 
     aws-sso-by-env ${env}
 
-    instance_id=$(aws ec2 describe-instances \
-               --filter "Name=tag:aws:cloudformation:stack-name,Values={{- (onepasswordItemFields "Amazon AWS (Waitrose)").jumphost.value }}" \
-               --query "Reservations[].Instances[?State.Name == 'running'].InstanceId[]" \
-               --output text)
-
-    mssh -vvv -N -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -L 5432:{{- (onepasswordItemFields "Amazon AWS (Waitrose)").customerdb.value }}:5432 ${instance_id}
+    mssh-to-instance ${env} -vvv -N -L ${port}:${host}:${port}
 }
 
-aws_customer_db_auth() {
+mssh-customer-db() {
+    env=${1:-dev}
+
+    mssh-port-forward ${env} {{ (onepasswordItemFields "Amazon AWS (Waitrose)").customerdb.value }} 5432
+}
+
+aws-customer-db-auth() {
   cluster_endpoint=$(aws rds describe-db-cluster-endpoints --filters "Name=db-cluster-endpoint-type,Values=READER" \
                     | jq -r '.DBClusterEndpoints[] | select(.Endpoint | contains("customer")) | .Endpoint')
 
