@@ -4,8 +4,8 @@ set -eufo pipefail
 . "$(chezmoi source-path)/../lib/log.sh"
 
 if [ -d "${HOME}/.config/nvim" ]; then
-  log::info "running nvim packersync"
-  # https://github.com/wbthomason/packer.nvim/issues/700
-  nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+  log::info "running nvim lazy sync"
+  # https://github.com/folke/lazy.nvim
+  nvim --headless "+Lazy! sync" +qa
   log::info::complete
 fi
