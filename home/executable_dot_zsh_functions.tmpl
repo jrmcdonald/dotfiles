@@ -32,6 +32,25 @@ jwt-decode() {
 }
 
 #
+# Base64
+#
+b64d() {
+  {{- if eq .chezmoi.os "darwin" }}
+  echo $(pbpaste) | base64 --decode
+  {{ else if eq .chezmoi.os "linux" }}
+  echo $(xclip -o) | base64 --decode
+  {{- end }}
+}
+
+b64e() {
+  {{- if eq .chezmoi.os "darwin" }}
+  echo $(pbpaste) | base64
+  {{ else if eq .chezmoi.os "linux" }}
+  echo $(xclip -o) | base64
+  {{- end }}
+}
+
+#
 # Gradle
 #
 allDepInsight() {
