@@ -1,5 +1,5 @@
 alias j="z"
-alias ll='exa -lahF'
+alias ll='eza -lahF'
 alias k="kubectl"
 alias wanip='dig @resolver1.opendns.com ANY myip.opendns.com +short'
 

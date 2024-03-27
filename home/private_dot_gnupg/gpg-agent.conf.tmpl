@@ -9,7 +9,7 @@ max-cache-ttl 120
 pinentry-program /usr/bin/pinentry-gnome3
 {{- end }}
 {{- if eq .chezmoi.os "darwin" -}}
-pinentry-program /usr/local/bin/pinentry-mac
+pinentry-program /opt/homebrew/bin/pinentry-mac
 {{- end }}
 #pinentry-program /usr/bin/pinentry-curses
 #pinentry-program /usr/bin/pinentry-tty

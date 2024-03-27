@@ -13,22 +13,18 @@ set -eufo pipefail
      "wget" -}}
 
 {{ $casks := list
-     "alacritty"
-     "1password"
-     "1password-cli"
      "dbeaver-community"
      "font-fira-code"
-     "font-jetbrains-mono-nerd-font"
+     "font-jetbrains-mono"
      "gimp"
      "insomnia"
-     "istat-menus"
      "jetbrains-toolbox"
      "obsidian"
-     "postman"
      "rectangle"
-     "zoom" -}}
+     "rancher" -}}
 
 log::info "installing macos brews"
+brew tap homebrew/cask-fonts
 brew bundle --no-lock --file=/dev/stdin <<EOF
 {{ range ($brews | sortAlpha | uniq) -}}
 brew "{{ . }}"

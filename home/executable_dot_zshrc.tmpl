@@ -1,6 +1,9 @@
-{{- if eq .chezmoi.os "linux" }}
 # homebrew
+{{- if eq .chezmoi.os "linux" }}
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+{{- end }}
+{{- if eq .chezmoi.os "darwin" }}
+eval $(/opt/homebrew/bin/brew shellenv)
 {{- end }}
 
 # load slimzsh
@@ -13,7 +16,6 @@ source "${HOME}/.zgen/zgen.zsh"
 if ! zgen saved; then
     zgen load unixorn/autoupdate-zgen
     zgen load zsh-users/zsh-autosuggestions
-    zgen load zsh-users/zsh-syntax-highlighting
     zgen load zsh-users/zsh-history-substring-search
     zgen load zsh-users/zsh-completions src
     zgen load paulirish/git-open

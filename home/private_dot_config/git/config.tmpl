@@ -33,7 +33,7 @@
 	program = /usr/bin/gpg
 {{- end }}
 {{- if eq .chezmoi.os "darwin" -}}
-	program = /usr/local/bin/gpg
+	program = /opt/homebrew/bin/gpg
 {{- end }}
 {{ if not .gitpod -}}
 [includeIf "gitdir:~/Development/"]
