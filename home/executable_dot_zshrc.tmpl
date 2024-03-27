@@ -77,6 +77,10 @@ export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 gpgconf --launch gpg-agent
 {{- end }}
 
+{{- if eq .chezmoi.os "darwin" }}
+export TESTCONTAINERS_HOST_OVERRIDE=$(rdctl shell ip a show rd0 | awk '/inet / {sub("/.*",""); print $2}')
+{{- end }}
+
 {{- if not .gitpod }}
 # import https://github.com/rupa/z
 source $(brew --prefix)/etc/profile.d/z.sh
