@@ -72,7 +72,12 @@ family = "JetBrains Mono"
 style = "Regular"
 
 [[hints.enabled]]
+{{- if eq .chezmoi.os "darwin" }}
+command = "open"
+{{- end }}
+{{- if eq .chezmoi.os "linux" }}
 command = "xdg-open"
+{{- end }}
 post_processing = true
 regex = "(mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-<>\" {-}\\^⟨⟩`]+"
 
