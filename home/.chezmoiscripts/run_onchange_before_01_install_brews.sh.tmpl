@@ -5,6 +5,7 @@ set -eufo pipefail
 . "$(chezmoi source-path)/../lib/log.sh"
 
 {{ $brews := list
+      "atuin"
       "awscli"
       "bat"
       "cfn-lint"
@@ -14,6 +15,7 @@ set -eufo pipefail
       "eza"
       "fd"
       "git"
+      "git-absorb"
       "git-cliff"
       "git-delta"
       "glab"
@@ -33,7 +35,6 @@ set -eufo pipefail
       "tmux"
       "yq"
       "z"
-      "mcfly"
       "k9s" -}}
 	  
 log::info "installing common brews"
