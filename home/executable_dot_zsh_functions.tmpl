@@ -56,3 +56,14 @@ b64e() {
 allDepInsight() {
   ./gradlew allDepInsight --configuration ${1} --dependency ${2}
 }
+
+#
+# Localstack
+#
+localstack-logs () {
+  docker logs -f $(docker ps -aqf "label=localstack")
+}
+
+localstack-bash () {
+  docker exec -it $(docker ps -aqf "label=localstack") /bin/bash
+}
