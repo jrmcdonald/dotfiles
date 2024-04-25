@@ -70,7 +70,7 @@ mssh-to-instance() {
 
     instance_id=$(mssh-get-instance-id ${env})
 
-    mssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ${opts} ${instance_id}
+    aws ec2-instance-connect ssh --instance-id ${instance_id} ${opts}
 }
 
 mssh-port-forward() {
@@ -80,7 +80,7 @@ mssh-port-forward() {
 
     aws-sso-by-env ${env}
 
-    mssh-to-instance ${env} -vvv -N -L ${port}:${host}:${port}
+    mssh-to-instance ${env} --local-forwarding ${port}:${host}:${port}
 }
 
 mssh-customer-db() {
