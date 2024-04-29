@@ -66,11 +66,10 @@ mssh-get-instance-id() {
 mssh-to-instance() {
     env=${1:-dev}
     shift
-    opts=${@}
 
     instance_id=$(mssh-get-instance-id ${env})
 
-    aws ec2-instance-connect ssh --instance-id ${instance_id} ${opts}
+    aws ec2-instance-connect ssh --instance-id ${instance_id} ${@}
 }
 
 mssh-port-forward() {
