@@ -99,4 +99,12 @@ aws-customer-db-auth() {
       --username wtrops \
       --region eu-west-1
 }
+
+docker-localstack-logs() {
+    docker logs -f $(docker ps -aqf "label=localstack")
+}
+
+docker-localstack-bash() {
+    docker exec -it $(docker ps -aqf "label=localstack") /bin/bash
+}
 {{- end }}
