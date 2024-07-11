@@ -1,0 +1,17 @@
+{{ if not .gitpod -}}
+#!/usr/bin/env bash
+set -eufo pipefail
+
+. "$(chezmoi source-path)/../lib/log.sh"
+
+pipx ensurepath
+
+{{ $pips := list
+      "aws-sso-util" -}}
+
+log::info "installing common pipx"
+{{ range ($pips | sortAlpha | uniq) -}}
+pipx install "{{ . }}"
+{{ end -}}
+log::info::complete
+{{ end -}}

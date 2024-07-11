@@ -29,6 +29,7 @@ set -eufo pipefail
       "maven"
       "neovim"
       "nvm"
+      "pipx"
       "ripgrep"
       "skaffold"
       "step"
@@ -36,7 +37,7 @@ set -eufo pipefail
       "yq"
       "z"
       "k9s" -}}
-	  
+
 log::info "installing common brews"
 brew bundle --no-lock --file=/dev/stdin <<EOF
 {{ range ($brews | sortAlpha | uniq) -}}

@@ -5,7 +5,7 @@
 aws-sso() {
   aws_profile=${1:-nonprod}
   export AWS_PROFILE=${aws_profile}
-  aws sso login
+  aws-sso-util login
   eval "$(aws configure export-credentials --profile ${aws_profile} --format env)"
 }
 
@@ -29,7 +29,7 @@ aws-sso-by-env() {
       "prod")
         aws_profile="prod"
         ;;
-      *)
+
         aws_profile="nonprod"
         ;;
     esac
