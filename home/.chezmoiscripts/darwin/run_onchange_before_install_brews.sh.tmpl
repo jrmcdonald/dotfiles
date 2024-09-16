@@ -14,6 +14,7 @@ set -eufo pipefail
 
 {{ $casks := list
      "alfred"
+     "bruno"
      "dbeaver-community"
      "font-fira-code"
      "font-jetbrains-mono"
@@ -25,7 +26,6 @@ set -eufo pipefail
      "todoist" -}}
 
 log::info "installing macos brews"
-brew tap homebrew/cask-fonts
 brew bundle --no-lock --file=/dev/stdin <<EOF
 {{ range ($brews | sortAlpha | uniq) -}}
 brew "{{ . }}"
