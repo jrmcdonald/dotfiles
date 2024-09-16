@@ -90,13 +90,15 @@ mssh-customer-db() {
 }
 
 aws-customer-db-auth() {
+  dbname=${1}
+
   cluster_endpoint=$(aws rds describe-db-cluster-endpoints --filters "Name=db-cluster-endpoint-type,Values=READER" \
                     | jq -r '.DBClusterEndpoints[] | select(.Endpoint | contains("customer")) | .Endpoint')
 
   aws rds generate-db-auth-token \
       --hostname ${cluster_endpoint} \
       --port 5432 \
-      --username wtrops \
+      --username ${dbname}-readonly \
       --region eu-west-1
 }
 
