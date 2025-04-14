@@ -1,0 +1,10 @@
+theme = nord
+font-family = JetBrains Mono
+font-size = 12.0
+
+command = ~/.local/bin/ghostty_tmux
+scrollback-limit = 1000000
+
+confirm-close-surface=false
+link-url=true
+mouse-hide-while-typing = true

@@ -18,6 +18,7 @@ set -eufo pipefail
      "dbeaver-community"
      "font-fira-code"
      "font-jetbrains-mono"
+     "ghostty"
      "gimp"
      "insomnia"
      "jetbrains-toolbox"
@@ -26,7 +27,7 @@ set -eufo pipefail
      "todoist" -}}
 
 log::info "installing macos brews"
-brew bundle --no-lock --file=/dev/stdin <<EOF
+brew bundle --file=/dev/stdin <<EOF
 {{ range ($brews | sortAlpha | uniq) -}}
 brew "{{ . }}"
 {{ end -}}
