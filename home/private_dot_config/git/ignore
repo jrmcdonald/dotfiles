@@ -3,5 +3,6 @@
 org.eclipse.buildship.core.prefs
 .vscode
 **/bin/
+**/out/
 .classpath
 **/LOG_PATH_IS_UNDEFINED/
