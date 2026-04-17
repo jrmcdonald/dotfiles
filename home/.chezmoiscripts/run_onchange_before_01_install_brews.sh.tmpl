@@ -1,16 +1,18 @@
-{{ if not .gitpod -}}
 #!/usr/bin/env bash
 set -eufo pipefail
 
-. "$(chezmoi source-path)/../lib/log.sh"
+. "${HOME}/.local/share/chezmoi/lib/log.sh"
 
 {{ $brews := list
       "atuin"
       "awscli"
       "bat"
       "cfn-lint"
+      "colima"
+      "copilot-cli"
       "curl"
       "direnv"
+      "docker"
       "docker-credential-helper-ecr"
       "eza"
       "fd"
@@ -18,31 +20,58 @@ set -eufo pipefail
       "git-absorb"
       "git-cliff"
       "git-delta"
+      "gitleaks"
       "glab"
       "glances"
+      "gnupg"
+      "gradle"
+      "gradle-completion"
       "helm"
+      "hugo"
+      "hopenpgp-tools"
       "jenv"
       "jq"
-      "kubernetes-cli"
+      "k9s"
       "kubectx"
+      "kubernetes-cli"
       "liquibase"
       "maven"
       "neovim"
       "nvm"
+      "pinentry-mac"
       "pipx"
       "ripgrep"
       "skaffold"
+      "snyk"
       "step"
       "tmux"
+      "uv"
+      "watch"
+      "wget"
+      "ykman"
       "yq"
-      "z"
-      "k9s" -}}
+      "yubikey-personalization"
+      "z" -}}
 
-log::info "installing common brews"
-brew bundle --no-lock --file=/dev/stdin <<EOF
+{{ $casks := list
+     "alfred"
+     "bruno"
+     "dbeaver-community"
+     "font-fira-code"
+     "font-jetbrains-mono"
+     "ghostty"
+     "gimp"
+     "insomnia"
+     "jetbrains-toolbox"
+     "rectangle-pro" -}}
+
+log::info "installing brews"
+brew bundle --file=/dev/stdin <<EOF
 {{ range ($brews | sortAlpha | uniq) -}}
 brew "{{ . }}"
 {{ end -}}
+{{ range ($casks | sortAlpha | uniq) -}}
+cask "{{ . }}"
+{{ end -}}
 EOF
 log::info::complete
-{{ end -}}

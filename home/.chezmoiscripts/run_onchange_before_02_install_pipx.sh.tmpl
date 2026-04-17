@@ -1,8 +1,7 @@
-{{ if not .gitpod -}}
 #!/usr/bin/env bash
 set -eufo pipefail
 
-. "$(chezmoi source-path)/../lib/log.sh"
+. "${HOME}/.local/share/chezmoi/lib/log.sh"
 
 pipx ensurepath
 
@@ -14,4 +13,3 @@ log::info "installing common pipx"
 pipx install "{{ . }}"
 {{ end -}}
 log::info::complete
-{{ end -}}

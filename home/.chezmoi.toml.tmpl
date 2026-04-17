@@ -1,12 +1,3 @@
 {{/* boolean feature tags */}}
 {{- $docker := false -}}{{/* true if this machine should have Docker installed */}}
-{{- $gitpod := false -}}{{/* true if this machine is gitpod */}}
 {{- "" -}}
-
-{{/* detect Gitpod */}}
-{{- if env "GITPOD_WORKSPACE_ID" -}}
-{{-   $gitpod = true -}}
-{{- end -}}
-
-[data]
-    gitpod = {{ $gitpod }}

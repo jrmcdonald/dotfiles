@@ -1,10 +1,5 @@
 # homebrew
-{{- if eq .chezmoi.os "linux" }}
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-{{- end }}
-{{- if eq .chezmoi.os "darwin" }}
 eval $(/opt/homebrew/bin/brew shellenv)
-{{- end }}
 
 # load slimzsh
 source "${HOME}/.slimzsh/slim.zsh"
@@ -27,15 +22,12 @@ fi
 
 export LC_ALL=en_US.UTF-8
 export PATH=${PATH}:/usr/local/bin
+export PATH=${PATH}:${HOME}/.local/
 export PATH=${PATH}:${HOME}/.local/bin
 export PATH=${PATH}:${HOME}/.cargo/bin
 export PATH="${HOME}/.jenv/bin:${PATH}"
-{{- if not .gitpod }}
 export PATH="${HOME}/.yarn/bin:${HOME}/.config/yarn/global/node_modules/.bin:${PATH}"
-{{- end }}
-{{- if eq .chezmoi.os "darwin" }}
-export PATH="${PATH}:${HOME}/.rd/bin"
-{{- end }}
+export PATH="${HOME}/Library/Application\ Support/JetBrains/Toolbox/scripts:${PATH}"
 
 export BAT_THEME=Nord
 
@@ -64,24 +56,15 @@ ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(bracketed-paste)
 # zsh helpers
 source "${HOME}/.zsh_aliases"
 source "${HOME}/.zsh_functions"
-{{- if not .gitpod }}
 source "${HOME}/.zsh_wtr_functions"
-{{- end }}
 source "${HOME}/.zsh_git_title"
-{{- if .gitpod }}
-source "${HOME}/.zsh_gitpod"
-{{- end }}
 
 source <(kubectl completion zsh)
 
-{{ if eq .chezmoi.os "darwin" }}
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 gpgconf --launch gpg-agent
-{{- end }}
 
-
-{{- if not .gitpod }}
 # import https://github.com/rupa/z
 source $(brew --prefix)/etc/profile.d/z.sh
 
@@ -97,7 +80,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 nvm use default
-{{- end }}
 
 # atuin
 eval "$(atuin init zsh)"
@@ -111,6 +93,9 @@ fi
 # https://github.com/starship/starship/issues/4180
 prompt off
 eval "$(starship init zsh)"
+
+export DOCKER_HOST=unix://$HOME/.colima/docker.sock
+export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="${HOME}/.sdkman"

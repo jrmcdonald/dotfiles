@@ -1,1 +1,7 @@
 .zsh_prompt
+.alacritty.toml
+.config/autostart
+.config/espanso
+.config/rofi
+.local/bin/rofi_firefox_bookmarks
+.local/bin/rofi_firefox_history

@@ -29,13 +29,6 @@
 [commit]
 	gpgsign = true
 [gpg]
-{{ if eq .chezmoi.os "linux" -}}
-	program = /usr/bin/gpg
-{{- end }}
-{{- if eq .chezmoi.os "darwin" -}}
 	program = /opt/homebrew/bin/gpg
-{{- end }}
-{{ if not .gitpod -}}
 [includeIf "gitdir:~/Development/"]
 	path = ~/.config/git/waitrose.com
-{{- end }}

@@ -1,4 +1,3 @@
-{{- if not .gitpod -}}
 #
 # Waitrose
 #
@@ -109,4 +108,3 @@ docker-localstack-logs() {
 docker-localstack-bash() {
     docker exec -it $(docker ps -aqf "label=localstack") /bin/bash
 }
-{{- end }}

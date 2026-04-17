@@ -1,10 +1,8 @@
-{{ if not .gitpod -}}
 #!/usr/bin/env bash
 set -eufo pipefail
 
-. "$(chezmoi source-path)/../lib/log.sh"
+. "${HOME}/.local/share/chezmoi/lib/log.sh"
 
 log::info "changing shell to zsh"
 sudo chsh -s "$(which zsh)" "$(whoami)"
 log::info::complete
-{{ end -}}
