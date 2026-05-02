@@ -5,55 +5,60 @@ set -eufo pipefail
 
 {{ $brews := list
       "atuin"
-      "awscli"
       "bat"
+      "curl"
+      "eza"
+      "fd"
+      "git-absorb"
+      "git-delta"
+      "gitleaks"
+      "jq"
+      "neovim"
+      "ripgrep"
+      "tmux"
+      "watch"
+      "yq"
+      "z" -}}
+
+{{ $casks := list -}}
+
+{{ if eq .chezmoi.os "darwin" -}}
+{{ $brews = concat $brews (list
+      "awscli"
       "cfn-lint"
       "colima"
       "copilot-cli"
-      "curl"
       "direnv"
       "docker"
       "docker-credential-helper-ecr"
-      "eza"
-      "fd"
       "git"
-      "git-absorb"
       "git-cliff"
-      "git-delta"
-      "gitleaks"
       "glab"
       "glances"
       "gnupg"
       "gradle"
       "gradle-completion"
       "helm"
-      "hugo"
       "hopenpgp-tools"
+      "hugo"
       "jenv"
-      "jq"
       "k9s"
       "kubectx"
       "kubernetes-cli"
       "liquibase"
       "maven"
-      "neovim"
       "nvm"
       "pinentry-mac"
       "pipx"
-      "ripgrep"
       "skaffold"
       "snyk"
       "step"
-      "tmux"
       "uv"
-      "watch"
       "wget"
       "ykman"
-      "yq"
-      "yubikey-personalization"
-      "z" -}}
+      "yubikey-personalization") -}}
 
-{{ $casks := list
+{{ $casks = list
      "alfred"
      "bruno"
      "dbeaver-community"
@@ -64,6 +69,8 @@ set -eufo pipefail
      "insomnia"
      "jetbrains-toolbox"
      "rectangle-pro" -}}
+
+{{ end -}}
 
 log::info "installing brews"
 brew bundle --file=/dev/stdin <<EOF

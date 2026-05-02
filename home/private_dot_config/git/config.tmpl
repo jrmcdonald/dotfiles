@@ -26,9 +26,11 @@
 	defaultBranch = master
 [pull]
 	rebase = false
+{{ if .work -}}
 [commit]
 	gpgsign = true
 [gpg]
 	program = /opt/homebrew/bin/gpg
 [includeIf "gitdir:~/Development/"]
 	path = ~/.config/git/waitrose.com
+{{- end }}

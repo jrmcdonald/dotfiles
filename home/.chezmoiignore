@@ -1,1 +1,11 @@
 **/debug-log.txt
+{{- if ne .chezmoi.os "darwin" }}
+.aws
+.config/ghostty
+.gnupg
+.ssh
+.zsh_wtr_functions
+.config/git/waitrose.com
+.local/bin/jira
+.local/bin/allowlist
+{{- end }}

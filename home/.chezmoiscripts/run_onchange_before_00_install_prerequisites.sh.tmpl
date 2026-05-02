@@ -3,6 +3,7 @@ set -eufo pipefail
 
 . "${HOME}/.local/share/chezmoi/lib/log.sh"
 
+{{ if eq .chezmoi.os "darwin" -}}
 # sdkman
 if [ ! -d "${HOME}/.sdkman" ]; then
   log::info "installing sdkman"
@@ -16,4 +17,4 @@ if ! [ -x "$(command -v nvm)" ]; then
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
   log::info::complete
 fi
-
+{{- end }}

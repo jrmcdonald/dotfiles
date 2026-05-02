@@ -2,7 +2,7 @@
 
 set -e # -e: exit on error
 
-if ! [ -x "$(command -v curl)" ] || ! [ -x "$(command -v git)"|| ! [ -x "$(command -v brew)" ]; then
+if ! [ -x "$(command -v curl)" ] || ! [ -x "$(command -v git)" ]|| ! [ -x "$(command -v brew)" ]; then
     printf "ERROR: To install these dotfiles, you must have curl, git, and brew installed.\n" >&2
     exit 1
 fi

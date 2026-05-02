@@ -3,6 +3,10 @@ set -eufo pipefail
 
 . "${HOME}/.local/share/chezmoi/lib/log.sh"
 
+{{ if ne .chezmoi.os "darwin" }}
+exit 0
+{{ end -}}
+
 log::info "installing java versions"
 
 # sdkman-init.sh has unbound variables and requires glob expansion

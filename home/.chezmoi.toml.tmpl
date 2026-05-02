@@ -1,3 +1,5 @@
 {{/* boolean feature tags */}}
 {{- $docker := false -}}{{/* true if this machine should have Docker installed */}}
-{{- "" -}}
+{{- $work := eq .chezmoi.os "darwin" -}}
+[data]
+  work = {{ $work }}
