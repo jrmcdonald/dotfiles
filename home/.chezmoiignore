@@ -1,5 +1,5 @@
 **/debug-log.txt
-{{- if ne .chezmoi.os "darwin" }}
+{{- if not .work }}
 .aws
 .config/ghostty
 .gnupg
