@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-set -eufo pipefail
-
-. "${HOME}/.local/share/chezmoi/lib/log.sh"
-
-log::info "installing/updating starship"
-curl -sS https://starship.rs/install.sh | sh -s -- --force
-log::info::complete
