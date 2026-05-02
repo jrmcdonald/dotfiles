@@ -3,11 +3,7 @@ set -eufo pipefail
 
 . "${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi}/lib/log.sh"
 
-{{- if ne .chezmoi.os "darwin" }}
-exit 0
-{{- end }}
-
-{{- if not .work }}
+{{- if or (ne .chezmoi.os "darwin") (not .work) }}
 exit 0
 {{- end }}
 
