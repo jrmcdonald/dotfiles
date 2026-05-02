@@ -24,7 +24,9 @@ if ! zgen saved; then
     zgen save
 fi
 
+{{ if .work }}
 export LC_ALL=en_US.UTF-8
+{{ end }}
 export PATH=${PATH}:/usr/local/bin
 export PATH=${PATH}:${HOME}/.local/
 export PATH=${PATH}:${HOME}/.local/bin
