@@ -1,0 +1,50 @@
+name: E2E (dry-run apply)
+
+on:
+  schedule:
+    - cron: "0 9 * * 1"   # Every Monday at 09:00 UTC
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    name: dry-run (${{ matrix.os }}, ${{ matrix.profile }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            profile: home
+            fixture: tests/fixtures/chezmoi-home.toml
+          - os: macos-latest
+            profile: home
+            fixture: tests/fixtures/chezmoi-home.toml
+          - os: macos-latest
+            profile: work
+            fixture: tests/fixtures/chezmoi-work.toml
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install chezmoi (Ubuntu)
+        if: runner.os == 'Linux'
+        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
+
+      - name: Install chezmoi (macOS)
+        if: runner.os == 'macOS'
+        run: brew install chezmoi
+
+      - name: Pre-seed chezmoi config (${{ matrix.profile }} profile)
+        run: |
+          mkdir -p ~/.config/chezmoi
+          cp ${{ matrix.fixture }} ~/.config/chezmoi/chezmoi.toml
+
+      - name: chezmoi init from local checkout
+        run: chezmoi init --source="${GITHUB_WORKSPACE}"
+
+      - name: chezmoi apply --dry-run
+        run: chezmoi apply --dry-run --verbose
+        env:
+          CHEZMOI_SOURCE_DIR: ${{ github.workspace }}/home
