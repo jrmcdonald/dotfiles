@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
-. "${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi}/../lib/log.sh"
+. "${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi/home}/../lib/log.sh"
 
-if [ -d "${HOME}/.tmux/plugins/tpm" ]; then
-  log::info "installing tmux plugins"
-  # https://github.com/tmux-plugins/tpm/blob/master/docs/automatic_tpm_installation.md
-  ${HOME}/.tmux/plugins/tpm/bin/install_plugins
-  log::info::complete
+function tmux::install_plugins() {
+  if [ -d "${HOME}/.tmux/plugins/tpm" ]; then
+    log::info "installing tmux plugins"
+    # https://github.com/tmux-plugins/tpm/blob/master/docs/automatic_tpm_installation.md
+    "${HOME}/.tmux/plugins/tpm/bin/install_plugins"
+    log::info::complete
+  fi
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  tmux::install_plugins
 fi
