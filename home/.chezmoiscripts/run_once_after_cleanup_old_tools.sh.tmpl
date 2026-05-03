@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -eufo pipefail
+
+. "${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi}/../lib/log.sh"
+
+# nvm → replaced by mise
+if [ -d "${HOME}/.nvm" ]; then
+  log::info "removing nvm (replaced by mise)"
+  rm -rf "${HOME}/.nvm"
+  log::info::complete
+fi
+
+# jenv → replaced by mise
+if [ -d "${HOME}/.jenv" ]; then
+  log::info "removing jenv (replaced by mise)"
+  rm -rf "${HOME}/.jenv"
+  log::info::complete
+fi
+
+# sdkman → replaced by mise
+if [ -d "${HOME}/.sdkman" ]; then
+  log::info "removing sdkman (replaced by mise)"
+  rm -rf "${HOME}/.sdkman"
+  log::info::complete
+fi
+
+# zgen → replaced by sheldon
+if [ -d "${HOME}/.zgen" ]; then
+  log::info "removing zgen (replaced by sheldon)"
+  rm -rf "${HOME}/.zgen"
+  log::info::complete
+fi
+
+# slimzsh → replaced by sheldon
+if [ -d "${HOME}/.slimzsh" ]; then
+  log::info "removing slimzsh (replaced by sheldon)"
+  rm -rf "${HOME}/.slimzsh"
+  log::info::complete
+fi

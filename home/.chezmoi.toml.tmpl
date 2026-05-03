@@ -1,5 +1,17 @@
 {{/* boolean feature tags */}}
-{{- $docker := false -}}{{/* true if this machine should have Docker installed */}}
-{{- $work := eq .chezmoi.os "darwin" -}}
+{{- $work := promptBoolOnce . "work" "Is this a work machine" -}}
+{{- if $work -}}
+{{- $_ := promptStringOnce . "workemail" "Work email address" -}}
+{{- $_ = promptStringOnce . "aws_sso_starturl" "AWS SSO start URL" -}}
+{{- $_ = promptStringOnce . "aws_account_sandbox" "AWS sandbox account ID" -}}
+{{- $_ = promptStringOnce . "aws_account_nonprod" "AWS nonprod account ID" -}}
+{{- $_ = promptStringOnce . "aws_account_nonprod2" "AWS nonprod2 account ID" -}}
+{{- $_ = promptStringOnce . "aws_account_feat" "AWS feat account ID" -}}
+{{- $_ = promptStringOnce . "aws_account_prod" "AWS prod account ID" -}}
+{{- $_ = promptStringOnce . "aws_eks_kubecontext" "AWS EKS cluster name (for kubeconfig)" -}}
+{{- $_ = promptStringOnce . "aws_jumphost_stack" "AWS jumphost CloudFormation stack name" -}}
+{{- $_ = promptStringOnce . "aws_customerdb_host" "Customer DB hostname" -}}
+{{- $_ = promptStringOnce . "jiraurl" "Jira URL" -}}
+{{- end -}}
 [data]
   work = {{ $work }}

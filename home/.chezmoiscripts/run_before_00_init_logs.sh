@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
-printf '' > "${HOME}/.local/share/chezmoi/home/debug-log.txt"
+printf '' > "${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi/home}/debug-log.txt"
 
-. "${HOME}/.local/share/chezmoi/lib/log.sh"
+. "${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi}/../lib/log.sh"
 
 log::start
 

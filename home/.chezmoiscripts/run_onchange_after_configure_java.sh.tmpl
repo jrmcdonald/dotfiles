@@ -1,31 +1,18 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
-. "${HOME}/.local/share/chezmoi/lib/log.sh"
+. "${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi}/../lib/log.sh"
 
-{{ if ne .chezmoi.os "darwin" }}
+{{- if not .work }}
 exit 0
-{{ end -}}
+{{- end }}
 
-log::info "installing java versions"
-
-# sdkman-init.sh has unbound variables and requires glob expansion
-set +uf
-
-export SDKMAN_DIR="${HOME}/.sdkman"
-[[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
-
-echo y | sdk install java 17.0.4-tem || true
-echo n | sdk install java 21.0.3-tem || true
-echo n | sdk install java 25.0.2-tem || true
-
-jenv add $HOME/.sdkman/candidates/java/17.0.4-tem/
-jenv add $HOME/.sdkman/candidates/java/21.0.3-tem/
-jenv add $HOME/.sdkman/candidates/java/25.0.2-tem/
-
-eval "$(jenv init -)"
-jenv enable-plugin export
-
-set -uf
-
+# mise-managed Java and Node versions.
+# Bare version strings resolve to temurin-* because
+# java.shorthand_vendor = "temurin" is set in ~/.config/mise/config.toml
+log::info "installing java versions via mise"
+mise install java@17
+mise install java@21
+mise install java@25
+mise use --global java@21
 log::info::complete

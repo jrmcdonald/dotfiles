@@ -1,76 +1,90 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
-. "${HOME}/.local/share/chezmoi/lib/log.sh"
+. "${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi}/../lib/log.sh"
 
-{{ $brews := list
+# Installed on every machine regardless of profile
+{{ $common := list
       "atuin"
       "bat"
       "curl"
       "eza"
       "fd"
+      "gh"
       "git-absorb"
       "git-delta"
       "gitleaks"
       "jq"
+      "mise"
       "neovim"
       "ripgrep"
+      "sheldon"
+      "starship"
       "tmux"
       "watch"
       "yq"
       "z" -}}
 
+# Work-only brews (macOS + work profile)
+{{ $work := list -}}
+
+# Home-only brews (macOS + home profile) — add here as needed
+{{ $home := list -}}
+
 {{ $casks := list -}}
 
 {{ if eq .chezmoi.os "darwin" -}}
-{{ $brews = concat $brews (list
-      "awscli"
-      "cfn-lint"
-      "colima"
-      "copilot-cli"
-      "direnv"
-      "docker"
-      "docker-credential-helper-ecr"
-      "git"
-      "git-cliff"
-      "glab"
-      "glances"
-      "gnupg"
-      "gradle"
-      "gradle-completion"
-      "helm"
-      "hopenpgp-tools"
-      "hugo"
-      "jenv"
-      "k9s"
-      "kubectx"
-      "kubernetes-cli"
-      "liquibase"
-      "maven"
-      "nvm"
-      "pinentry-mac"
-      "pipx"
-      "skaffold"
-      "snyk"
-      "step"
-      "uv"
-      "wget"
-      "ykman"
-      "yubikey-personalization") -}}
+  {{- if .work -}}
+    {{ $work = list
+          "awscli"
+          "cfn-lint"
+          "colima"
+          "copilot-cli"
+          "direnv"
+          "docker"
+          "docker-credential-helper-ecr"
+          "git"
+          "git-cliff"
+          "glab"
+          "glances"
+          "gnupg"
+          "gradle"
+          "gradle-completion"
+          "helm"
+          "hopenpgp-tools"
+          "hugo"
+          "k9s"
+          "kubectx"
+          "kubernetes-cli"
+          "liquibase"
+          "maven"
+          "pinentry-mac"
+          "pipx"
+          "skaffold"
+          "snyk"
+          "step"
+          "uv"
+          "wget"
+          "ykman"
+          "yubikey-personalization" -}}
 
-{{ $casks = list
-     "alfred"
-     "bruno"
-     "dbeaver-community"
-     "font-fira-code"
-     "font-jetbrains-mono"
-     "ghostty"
-     "gimp"
-     "insomnia"
-     "jetbrains-toolbox"
-     "rectangle-pro" -}}
-
+    {{ $casks = list
+         "alfred"
+         "bruno"
+         "dbeaver-community"
+         "font-fira-code"
+         "font-jetbrains-mono"
+         "ghostty"
+         "gimp"
+         "insomnia"
+         "jetbrains-toolbox"
+         "rectangle-pro" -}}
+  {{- else -}}
+    {{/* home-only casks would go here */}}
+  {{- end -}}
 {{ end -}}
+
+{{ $brews := concat $common $work $home -}}
 
 log::info "installing brews"
 brew bundle --file=/dev/stdin <<EOF

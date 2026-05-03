@@ -1,0 +1,19 @@
+# ~/.config/sheldon/plugins.toml
+# Manage with: sheldon lock --update
+
+shell = "zsh"
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+
+[plugins.zsh-history-substring-search]
+github = "zsh-users/zsh-history-substring-search"
+
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+
+[plugins.git-open]
+github = "paulirish/git-open"
+
+[plugins.kubetail]
+github = "johanhaleby/kubetail"

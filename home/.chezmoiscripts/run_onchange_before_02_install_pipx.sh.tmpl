@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
-. "${HOME}/.local/share/chezmoi/lib/log.sh"
+. "${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi}/../lib/log.sh"
 
-{{ if ne .chezmoi.os "darwin" }}
+{{- if or (ne .chezmoi.os "darwin") (not .work) }}
 exit 0
-{{ end -}}
+{{- end }}
 
 pipx ensurepath
 

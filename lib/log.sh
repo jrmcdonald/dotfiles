@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
-debug_log_path="${HOME}/.local/share/chezmoi/home/debug-log.txt"
+debug_log_path="${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi/home}/debug-log.txt"
 
 # keep original descriptor for stdout
 exec 5<&1
