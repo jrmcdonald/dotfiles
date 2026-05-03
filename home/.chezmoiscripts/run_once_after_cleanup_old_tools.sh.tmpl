@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
-. "${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi}/lib/log.sh"
+. "${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi}/../lib/log.sh"
 
 # nvm → replaced by mise
 if [ -d "${HOME}/.nvm" ]; then
