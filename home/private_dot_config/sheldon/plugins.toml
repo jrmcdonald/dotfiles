@@ -1,6 +1,8 @@
 # ~/.config/sheldon/plugins.toml
 # Manage with: sheldon lock --update
 
+shell = "zsh"
+
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 
