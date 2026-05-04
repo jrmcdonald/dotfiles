@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
-. "${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi}/../lib/log.sh"
+. "${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi/home}/../lib/log.sh"
 
-if [ -d "${HOME}/.config/nvim" ]; then
-  log::info "running nvim lazy sync"
-  # https://github.com/folke/lazy.nvim
-  nvim --headless "+Lazy! sync" +qa
-  log::info::complete
+function vim::sync_plugins() {
+  if [ -d "${HOME}/.config/nvim" ]; then
+    log::info "running nvim lazy sync"
+    # https://github.com/folke/lazy.nvim
+    nvim --headless "+Lazy! sync" +qa
+    log::info::complete
+  fi
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  vim::sync_plugins
 fi

@@ -1,39 +1,26 @@
 #!/usr/bin/env bash
 set -eufo pipefail
 
-. "${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi}/../lib/log.sh"
+. "${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi/home}/../lib/log.sh"
 
-# nvm → replaced by mise
-if [ -d "${HOME}/.nvm" ]; then
-  log::info "removing nvm (replaced by mise)"
-  rm -rf "${HOME}/.nvm"
-  log::info::complete
-fi
+function cleanup::remove_if_exists() {
+  local name="${1}"
+  local path="${2}"
+  if [ -d "${path}" ]; then
+    log::info "removing ${name}"
+    rm -rf "${path}"
+    log::info::complete
+  fi
+}
 
-# jenv → replaced by mise
-if [ -d "${HOME}/.jenv" ]; then
-  log::info "removing jenv (replaced by mise)"
-  rm -rf "${HOME}/.jenv"
-  log::info::complete
-fi
+function main() {
+  cleanup::remove_if_exists "nvm (replaced by mise)"        "${HOME}/.nvm"
+  cleanup::remove_if_exists "jenv (replaced by mise)"       "${HOME}/.jenv"
+  cleanup::remove_if_exists "sdkman (replaced by mise)"     "${HOME}/.sdkman"
+  cleanup::remove_if_exists "zgen (replaced by sheldon)"    "${HOME}/.zgen"
+  cleanup::remove_if_exists "slimzsh (replaced by sheldon)" "${HOME}/.slimzsh"
+}
 
-# sdkman → replaced by mise
-if [ -d "${HOME}/.sdkman" ]; then
-  log::info "removing sdkman (replaced by mise)"
-  rm -rf "${HOME}/.sdkman"
-  log::info::complete
-fi
-
-# zgen → replaced by sheldon
-if [ -d "${HOME}/.zgen" ]; then
-  log::info "removing zgen (replaced by sheldon)"
-  rm -rf "${HOME}/.zgen"
-  log::info::complete
-fi
-
-# slimzsh → replaced by sheldon
-if [ -d "${HOME}/.slimzsh" ]; then
-  log::info "removing slimzsh (replaced by sheldon)"
-  rm -rf "${HOME}/.slimzsh"
-  log::info::complete
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
 fi

@@ -1,0 +1,13 @@
+[data]
+  work = true
+  workemail = "test@example.com"
+  aws_sso_starturl = "https://example.awsapps.com/start"
+  aws_account_sandbox = "000000000001"
+  aws_account_nonprod = "000000000002"
+  aws_account_nonprod2 = "000000000003"
+  aws_account_feat = "000000000004"
+  aws_account_prod = "000000000005"
+  aws_eks_kubecontext = "test-cluster"
+  aws_jumphost_stack = "test-jumphost-stack"
+  aws_customerdb_host = "db.example.internal"
+  jiraurl = "https://jira.example.com"
