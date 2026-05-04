@@ -41,10 +41,5 @@ jobs:
           mkdir -p ~/.config/chezmoi
           cp ${{ matrix.fixture }} ~/.config/chezmoi/chezmoi.toml
 
-      - name: chezmoi init from local checkout
-        run: chezmoi init --source="${GITHUB_WORKSPACE}"
-
       - name: chezmoi apply --dry-run
-        run: chezmoi apply --dry-run --verbose
-        env:
-          CHEZMOI_SOURCE_DIR: ${{ github.workspace }}/home
+        run: chezmoi apply --dry-run --verbose --source="${GITHUB_WORKSPACE}/home" --refresh-externals=never
