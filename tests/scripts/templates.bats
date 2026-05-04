@@ -33,6 +33,7 @@ assert_valid_bash() {
   assert_output --partial 'brew "starship"'
   assert_output --partial 'brew "neovim"'
   assert_output --partial 'brew "atuin"'
+  assert_output --partial 'brew "dotenv"'
 }
 
 @test "install_brews [home]: does not contain work brews" {
@@ -67,6 +68,7 @@ assert_valid_bash() {
   assert_output --partial 'brew "mise"'
   assert_output --partial 'brew "sheldon"'
   assert_output --partial 'brew "starship"'
+  assert_output --partial 'brew "dotenv"'
 }
 
 @test "install_brews [work]: contains work-only brews" {
