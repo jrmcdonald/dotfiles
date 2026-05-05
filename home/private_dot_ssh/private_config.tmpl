@@ -1,6 +1,13 @@
+{{- if .work }}
+Include /Users/jammdon/.colima/ssh_config
+{{- end }}
+
 Host github.com
     IdentitiesOnly yes
     IdentityFile ~/.ssh/id_rsa_yubikey.pub
+
+{{- if .work }}
 Host gitlab.com
     IdentitiesOnly yes
     IdentityFile ~/.ssh/id_rsa_yubikey.pub
+{{- end }}
