@@ -64,11 +64,9 @@ source $(brew --prefix)/etc/profile.d/z.sh
 
 # mise - runtime version manager (replaces nvm, jenv, pyenv)
 eval "$(mise activate zsh)"
-{{- if .work }}
 
 # direnv
 eval "$(direnv hook zsh)"
-{{- end }}
 
 # atuin
 eval "$(atuin init zsh)"
