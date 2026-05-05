@@ -36,9 +36,9 @@ teardown() {
   refute_output --partial "zsh_wtr_functions"
 }
 
-@test "zshrc [home]: does not contain direnv hook" {
+@test "zshrc [home]: enables direnv" {
   run render_home "${ZSHRC}"
-  refute_output --partial "direnv hook"
+  assert_output --partial "direnv hook zsh"
 }
 
 # ---- work profile ----

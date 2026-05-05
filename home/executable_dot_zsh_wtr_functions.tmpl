@@ -1,0 +1,139 @@
+#
+# Waitrose
+#
+aws-sso() {
+  aws_profile=${1:-nonprod}
+  export AWS_PROFILE=${aws_profile}
+  aws-sso-util login
+  eval "$(aws configure export-credentials --profile ${aws_profile} --format env)"
+}
+
+aws-sso-by-env() {
+    aws_env=${1:-dev}
+
+    aws_profile=""
+    case "${aws_env}" in
+      "sandbox")
+        aws_profile="sandbox"
+        ;;
+      "dev")
+        aws_profile="nonprod"
+        ;;
+      "qa")
+        aws_profile="nonprod"
+        ;;
+      "perf2")
+        aws_profile="nonprod2"
+        ;;
+      "prod")
+        aws_profile="prod"
+        ;;
+      *)
+        aws_profile="nonprod"
+        ;;
+    esac
+
+    aws-sso ${aws_profile}
+}
+
+aws-eks() {
+    aws_eks_env=${1:-dev}
+
+    aws-sso-by-env ${aws_eks_env}
+
+    aws eks update-kubeconfig --name {{ .aws_eks_kubecontext }}
+
+    current_name=$(kubectx -c)
+    desired_name=$(echo ${current_name} | cut -d / -f2)
+
+    kubectl config delete-context ${desired_name}
+    kubectl config rename-context ${current_name} ${desired_name}
+}
+
+cfn_nag_scan() {
+  docker run -ti --rm -v $(pwd):/apps -w /apps alpine/cfn-nag $@
+}
+
+ssm-get-instance-id() {
+    env=${1:-dev}
+
+    name_pattern="{{- .aws_ssmgateway_stack }}-${env}"
+
+    aws ec2 describe-instances \
+        --filters "Name=tag:Name,Values=${name_pattern}" \
+                  "Name=instance-state-name,Values=running" \
+        --query "Reservations[*].Instances[*].InstanceId" \
+        --output text | awk '{print $1}'
+}
+
+ssm-port-forward() {
+    env=${1:-dev}
+    host=${2}
+    port=${3}
+
+    aws-sso-by-env ${env}
+
+    name_pattern="{{- .aws_ssmgateway_stack }}-${env}"
+
+    echo "--------------------------------------------------------------"
+    echo "🔐 SSM TUNNEL"
+    echo "--------------------------------------------------------------"
+    echo "You are establishing a secure tunnel via the SSM Gateway"
+    echo "Environment: ${env}"
+    echo "Local Access: localhost:${port}"
+    echo "--------------------------------------------------------------"
+    echo "Notes:"
+    echo "- This session has a HARD LIMIT of 120 minutes"
+    echo "- All activity is recorded and monitored for compliance"
+    echo "- The tunnel is CONNECTED when you see the message:"
+    echo "  Waiting for connections..."
+    echo "--------------------------------------------------------------"
+    echo "🔍 Searching for Bridge matching: ${name_pattern}"
+    echo "🎯 Target Host: ${host}"
+
+    instance_id=$(ssm-get-instance-id ${env})
+
+    if [ -z "${instance_id}" ] || [ "${instance_id}" = "None" ]; then
+        echo "❌ Error: No running bridge found for environment '${env}'"
+        exit 1
+    fi
+
+    echo "✅ Bridge Found: ${instance_id}"
+    echo "🚀 Opening Tunnel..."
+
+    aws ssm start-session \
+        --target "${instance_id}" \
+        --document-name AWS-StartPortForwardingSessionToRemoteHost \
+        --parameters "{
+            \"host\":[\"${host}\"],
+            \"portNumber\":[\"${port}\"],
+            \"localPortNumber\":[\"${port}\"]
+        }"
+}
+
+ssm-customer-db() {
+    env=${1:-dev}
+
+    ssm-port-forward ${env} {{ .aws_customerdb_host }} 5432
+}
+
+aws-customer-db-auth() {
+  dbname=${1}
+
+  cluster_endpoint=$(aws rds describe-db-cluster-endpoints --filters "Name=db-cluster-endpoint-type,Values=READER" \
+                    | jq -r '.DBClusterEndpoints[] | select(.Endpoint | contains("customer")) | .Endpoint')
+
+  aws rds generate-db-auth-token \
+      --hostname ${cluster_endpoint} \
+      --port 5432 \
+      --username ${dbname}-readonly \
+      --region eu-west-1
+}
+
+docker-localstack-logs() {
+    docker logs -f $(docker ps -aqf "label=localstack")
+}
+
+docker-localstack-bash() {
+    docker exec -it $(docker ps -aqf "label=localstack") /bin/bash
+}

@@ -1,17 +1,38 @@
 {{/* boolean feature tags */}}
 {{- $work := promptBoolOnce . "work" "Is this a work machine" -}}
+{{- $workemail := "" -}}
+{{- $aws_sso_starturl := "" -}}
+{{- $aws_account_sandbox := "" -}}
+{{- $aws_account_nonprod := "" -}}
+{{- $aws_account_nonprod2 := "" -}}
+{{- $aws_account_feat := "" -}}
+{{- $aws_account_prod := "" -}}
+{{- $aws_eks_kubecontext := "" -}}
+{{- $aws_ssmgateway_stack := "" -}}
+{{- $aws_customerdb_host := "" -}}
 {{- if $work -}}
-{{- $_ := promptStringOnce . "workemail" "Work email address" -}}
-{{- $_ = promptStringOnce . "aws_sso_starturl" "AWS SSO start URL" -}}
-{{- $_ = promptStringOnce . "aws_account_sandbox" "AWS sandbox account ID" -}}
-{{- $_ = promptStringOnce . "aws_account_nonprod" "AWS nonprod account ID" -}}
-{{- $_ = promptStringOnce . "aws_account_nonprod2" "AWS nonprod2 account ID" -}}
-{{- $_ = promptStringOnce . "aws_account_feat" "AWS feat account ID" -}}
-{{- $_ = promptStringOnce . "aws_account_prod" "AWS prod account ID" -}}
-{{- $_ = promptStringOnce . "aws_eks_kubecontext" "AWS EKS cluster name (for kubeconfig)" -}}
-{{- $_ = promptStringOnce . "aws_jumphost_stack" "AWS jumphost CloudFormation stack name" -}}
-{{- $_ = promptStringOnce . "aws_customerdb_host" "Customer DB hostname" -}}
-{{- $_ = promptStringOnce . "jiraurl" "Jira URL" -}}
+{{- $workemail = promptStringOnce . "workemail" "Work email address" -}}
+{{- $aws_sso_starturl = promptStringOnce . "aws_sso_starturl" "AWS SSO start URL" -}}
+{{- $aws_account_sandbox = promptStringOnce . "aws_account_sandbox" "AWS sandbox account ID" -}}
+{{- $aws_account_nonprod = promptStringOnce . "aws_account_nonprod" "AWS nonprod account ID" -}}
+{{- $aws_account_nonprod2 = promptStringOnce . "aws_account_nonprod2" "AWS nonprod2 account ID" -}}
+{{- $aws_account_feat = promptStringOnce . "aws_account_feat" "AWS feat account ID" -}}
+{{- $aws_account_prod = promptStringOnce . "aws_account_prod" "AWS prod account ID" -}}
+{{- $aws_eks_kubecontext = promptStringOnce . "aws_eks_kubecontext" "AWS EKS cluster name (for kubeconfig)" -}}
+{{- $aws_ssmgateway_stack = promptStringOnce . "aws_ssmgateway_stack" "AWS SSM Gateway CloudFormation stack name" -}}
+{{- $aws_customerdb_host = promptStringOnce . "aws_customerdb_host" "Customer DB hostname" -}}
 {{- end -}}
 [data]
   work = {{ $work }}
+{{- if $work }}
+  workemail = {{ $workemail | quote }}
+  aws_sso_starturl = {{ $aws_sso_starturl | quote }}
+  aws_account_sandbox = {{ $aws_account_sandbox | quote }}
+  aws_account_nonprod = {{ $aws_account_nonprod | quote }}
+  aws_account_nonprod2 = {{ $aws_account_nonprod2 | quote }}
+  aws_account_feat = {{ $aws_account_feat | quote }}
+  aws_account_prod = {{ $aws_account_prod | quote }}
+  aws_eks_kubecontext = {{ $aws_eks_kubecontext | quote }}
+  aws_ssmgateway_stack = {{ $aws_ssmgateway_stack | quote }}
+  aws_customerdb_host = {{ $aws_customerdb_host | quote }}
+{{- end }}
