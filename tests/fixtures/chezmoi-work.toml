@@ -8,6 +8,6 @@
   aws_account_feat = "000000000004"
   aws_account_prod = "000000000005"
   aws_eks_kubecontext = "test-cluster"
-  aws_jumphost_stack = "test-jumphost-stack"
+  aws_ssmgateway_stack = "test-ssmgateway-stack"
   aws_customerdb_host = "db.example.internal"
   jiraurl = "https://jira.example.com"
