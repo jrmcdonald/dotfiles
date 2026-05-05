@@ -133,7 +133,57 @@ assert_valid_bash() {
 @test "configure_java [work]: sets java 21 as global default" {
   run render_work "${SCRIPTS}/run_onchange_after_configure_java.sh.tmpl"
   assert_success
-  assert_output --partial "mise use --global java@21"
+  refute_output --partial "mise use --global java@21"
+}
+
+# ============================================================
+# configure_node — home profile
+# ============================================================
+
+@test "configure_node [home]: renders valid bash" {
+  run render_home "${SCRIPTS}/run_onchange_after_configure_node.sh.tmpl"
+  assert_success
+  assert_valid_bash "${output}"
+}
+
+@test "configure_node [home]: exits early" {
+  run render_home "${SCRIPTS}/run_onchange_after_configure_node.sh.tmpl"
+  assert_success
+  assert_output --partial "exit 0"
+}
+
+# ============================================================
+# configure_node — work profile
+# ============================================================
+
+@test "configure_node [work]: renders valid bash" {
+  run render_work "${SCRIPTS}/run_onchange_after_configure_node.sh.tmpl"
+  assert_success
+  assert_valid_bash "${output}"
+}
+
+@test "configure_node [work]: does not exit early" {
+  run render_work "${SCRIPTS}/run_onchange_after_configure_node.sh.tmpl"
+  assert_success
+  refute_output --partial "exit 0"
+}
+
+@test "configure_node [work]: installs node 24.14.1" {
+  run render_work "${SCRIPTS}/run_onchange_after_configure_node.sh.tmpl"
+  assert_success
+  assert_output --partial "mise install node@24.14.1"
+}
+
+@test "configure_node [work]: sets node 24.14.1 as global default" {
+  run render_work "${SCRIPTS}/run_onchange_after_configure_node.sh.tmpl"
+  assert_success
+  refute_output --partial "mise use --global node@24.14.1"
+}
+
+@test "configure_node [work]: installs corepack" {
+  run render_work "${SCRIPTS}/run_onchange_after_configure_node.sh.tmpl"
+  assert_success
+  assert_output --partial "npm install -g corepack"
 }
 
 # ============================================================

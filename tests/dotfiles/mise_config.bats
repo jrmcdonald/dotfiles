@@ -28,7 +28,7 @@ teardown() {
 @test "mise config [home]: does not declare any tools" {
   run render_home "${MISE_CONFIG}"
   refute_output --partial "[tools]"
-  refute_output --partial 'node = "lts"'
+  refute_output --partial 'node = "24.14.1"'
   refute_output --partial 'java = "21"'
 }
 
@@ -40,6 +40,6 @@ teardown() {
 @test "mise config [work]: declares node and java tools" {
   run render_work "${MISE_CONFIG}"
   assert_output --partial "[tools]"
-  assert_output --partial 'node = "lts"'
+  assert_output --partial 'node = "24.14.1"'
   assert_output --partial 'java = "21"'
 }
