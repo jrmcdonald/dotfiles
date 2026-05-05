@@ -18,6 +18,9 @@ export PATH="${PATH}:${HOME}/.cargo/bin"
 {{- if .work }}
 export PATH="${HOME}/.yarn/bin:${HOME}/.config/yarn/global/node_modules/.bin:${PATH}"
 export PATH="${HOME}/Library/Application Support/JetBrains/Toolbox/scripts:${PATH}"
+
+# https://github.com/orgs/Homebrew/discussions/6798#discussioncomment-16604536
+export DYLD_LIBRARY_PATH="/opt/homebrew/opt/expat/lib"
 {{- end }}
 
 export BAT_THEME=Nord
