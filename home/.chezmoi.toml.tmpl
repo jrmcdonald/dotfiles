@@ -10,7 +10,6 @@
 {{- $aws_eks_kubecontext := "" -}}
 {{- $aws_ssmgateway_stack := "" -}}
 {{- $aws_customerdb_host := "" -}}
-{{- $jiraurl := "" -}}
 {{- if $work -}}
 {{- $workemail = promptStringOnce . "workemail" "Work email address" -}}
 {{- $aws_sso_starturl = promptStringOnce . "aws_sso_starturl" "AWS SSO start URL" -}}
@@ -22,7 +21,6 @@
 {{- $aws_eks_kubecontext = promptStringOnce . "aws_eks_kubecontext" "AWS EKS cluster name (for kubeconfig)" -}}
 {{- $aws_ssmgateway_stack = promptStringOnce . "aws_ssmgateway_stack" "AWS SSM Gateway CloudFormation stack name" -}}
 {{- $aws_customerdb_host = promptStringOnce . "aws_customerdb_host" "Customer DB hostname" -}}
-{{- $jiraurl = promptStringOnce . "jiraurl" "Jira URL" -}}
 {{- end -}}
 [data]
   work = {{ $work }}
@@ -37,5 +35,4 @@
   aws_eks_kubecontext = {{ $aws_eks_kubecontext | quote }}
   aws_ssmgateway_stack = {{ $aws_ssmgateway_stack | quote }}
   aws_customerdb_host = {{ $aws_customerdb_host | quote }}
-  jiraurl = {{ $jiraurl | quote }}
 {{- end }}

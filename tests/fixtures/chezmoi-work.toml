@@ -10,4 +10,3 @@
   aws_eks_kubecontext = "test-cluster"
   aws_ssmgateway_stack = "test-ssmgateway-stack"
   aws_customerdb_host = "db.example.internal"
-  jiraurl = "https://jira.example.com"
