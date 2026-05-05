@@ -55,6 +55,7 @@ source "${HOME}/.zsh_wtr_functions"
 source "${HOME}/.zsh_git_title"
 {{- if .work }}
 
+(( ${+functions[compdef]} )) || { autoload -Uz compinit && compinit }
 source <(kubectl completion zsh)
 
 export GPG_TTY="$(tty)"
