@@ -3,7 +3,9 @@ idiomatic_version_file = true
 java.shorthand_vendor = "temurin"
 
 {{- if .work }}
+idiomatic_version_file_enable_tools = ["java", "node"]
 [tools]
 node = "24.14.1"
 java = "21"
 {{- end }}
+˙

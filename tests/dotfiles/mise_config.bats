@@ -39,6 +39,7 @@ teardown() {
 
 @test "mise config [work]: declares node and java tools" {
   run render_work "${MISE_CONFIG}"
+  assert_output --partial 'idiomatic_version_file_enable_tools = ["java", "node"]'
   assert_output --partial "[tools]"
   assert_output --partial 'node = "24.14.1"'
   assert_output --partial 'java = "21"'
