@@ -25,9 +25,9 @@ teardown() {
   assert_output --partial 'java.shorthand_vendor = "temurin"'
 }
 
-@test "mise config [home]: has min_release_age setting" {
+@test "mise config [home]: has minimum_release_age setting" {
   run render_home "${MISE_CONFIG}"
-  assert_output --partial 'min_release_age = "3d"'
+  assert_output --partial 'minimum_release_age = "3d"'
 }
 
 @test "mise config [home]: declares node and java tools" {
@@ -43,9 +43,9 @@ teardown() {
   assert_success
 }
 
-@test "mise config [work]: has min_release_age setting" {
+@test "mise config [work]: has minimum_release_age setting" {
   run render_work "${MISE_CONFIG}"
-  assert_output --partial 'min_release_age = "3d"'
+  assert_output --partial 'minimum_release_age = "3d"'
 }
 
 @test "mise config [work]: declares node and java tools" {
