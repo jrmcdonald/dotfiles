@@ -3,11 +3,7 @@ set -eufo pipefail
 
 . "${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi}/../lib/log.sh"
 
-{{- if not .work }}
-exit 0
-{{- end }}
-
-# mise-managed Java and Node versions.
+# mise-managed Java versions.
 # Bare version strings resolve to temurin-* because
 # java.shorthand_vendor = "temurin" is set in ~/.config/mise/config.toml
 log::info "installing java versions via mise"

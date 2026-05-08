@@ -3,10 +3,6 @@ set -eufo pipefail
 
 . "${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi}/../lib/log.sh"
 
-{{- if not .work }}
-exit 0
-{{- end }}
-
 log::info "installing node versions via mise"
 mise install node@24.14.1
 log::info::complete

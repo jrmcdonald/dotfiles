@@ -1,11 +1,9 @@
 [settings]
 idiomatic_version_file = true
+idiomatic_version_file_enable_tools = ["java", "node"]
+minimum_release_age = "3d"
 java.shorthand_vendor = "temurin"
 
-{{- if .work }}
-idiomatic_version_file_enable_tools = ["java", "node"]
 [tools]
 node = "24.14.1"
 java = "21"
-{{- end }}
-˙
