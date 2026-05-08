@@ -100,10 +100,18 @@ assert_valid_bash() {
   assert_valid_bash "${output}"
 }
 
-@test "configure_java [home]: exits early" {
+@test "configure_java [home]: does not exit early" {
   run render_home "${SCRIPTS}/run_onchange_after_configure_java.sh.tmpl"
   assert_success
-  assert_output --partial "exit 0"
+  refute_output --partial "exit 0"
+}
+
+@test "configure_java [home]: installs all three java versions" {
+  run render_home "${SCRIPTS}/run_onchange_after_configure_java.sh.tmpl"
+  assert_success
+  assert_output --partial "mise install java@17"
+  assert_output --partial "mise install java@21"
+  assert_output --partial "mise install java@25"
 }
 
 # ============================================================
@@ -146,10 +154,22 @@ assert_valid_bash() {
   assert_valid_bash "${output}"
 }
 
-@test "configure_node [home]: exits early" {
+@test "configure_node [home]: does not exit early" {
   run render_home "${SCRIPTS}/run_onchange_after_configure_node.sh.tmpl"
   assert_success
-  assert_output --partial "exit 0"
+  refute_output --partial "exit 0"
+}
+
+@test "configure_node [home]: installs node 24.14.1" {
+  run render_home "${SCRIPTS}/run_onchange_after_configure_node.sh.tmpl"
+  assert_success
+  assert_output --partial "mise install node@24.14.1"
+}
+
+@test "configure_node [home]: installs corepack" {
+  run render_home "${SCRIPTS}/run_onchange_after_configure_node.sh.tmpl"
+  assert_success
+  assert_output --partial "npm install -g corepack"
 }
 
 # ============================================================
