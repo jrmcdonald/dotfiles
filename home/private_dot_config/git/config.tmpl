@@ -1,7 +1,6 @@
 [user]
 	name = Jamie McDonald
 	email = jamie@qwyck.net
-	signingkey = 378F7ADE3FC73F27
 [alias]
 	aliases = config --get-regexp alias
 	l = log -5 --pretty --oneline
@@ -23,14 +22,19 @@
 	syntax-theme = base16
 
 [init]
-	defaultBranch = master
+	defaultBranch = main
 [pull]
 	rebase = false
+[credential]
+	helper =
+	helper = /usr/local/bin/git-credential-manager
+[credential "https://dev.azure.com"]
+	useHttpPath = true
 {{ if .work -}}
-[commit]
-	gpgsign = true
-[gpg]
-	program = /opt/homebrew/bin/gpg
 [includeIf "gitdir:~/Development/"]
 	path = ~/.config/git/waitrose.com
+[url "https://github.com/"]
+	insteadOf = git@github.com:
+[url "https://gitlab.com/"]
+	insteadOf = git@gitlab.com:
 {{- end }}
