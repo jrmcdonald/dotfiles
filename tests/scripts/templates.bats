@@ -90,6 +90,20 @@ assert_valid_bash() {
   assert_output --partial 'cask "alfred"'
 }
 
+@test "install_brews [work]: contains git-credential-manager cask" {
+  [[ "$(uname)" == "Darwin" ]] || skip "darwin only"
+  run render_work "${SCRIPTS}/run_onchange_before_01_install_brews.sh.tmpl"
+  assert_success
+  assert_output --partial 'cask "git-credential-manager"'
+}
+
+@test "install_brews [home]: does not contain git-credential-manager cask" {
+  [[ "$(uname)" == "Darwin" ]] || skip "darwin only"
+  run render_home "${SCRIPTS}/run_onchange_before_01_install_brews.sh.tmpl"
+  assert_success
+  refute_output --partial 'cask "git-credential-manager"'
+}
+
 # ============================================================
 # configure_java — home profile
 # ============================================================
