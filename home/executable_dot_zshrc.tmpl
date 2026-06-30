@@ -8,6 +8,12 @@ eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 # load plugins via sheldon
 eval "$(sheldon source)"
 
+# zsh completions — must run after sheldon (which populates fpath)
+autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+# treat each alias as a distinct completion target (required for compdef to work on aliases)
+setopt COMPLETE_ALIASES
+
 {{- if .work }}
 export LC_ALL=en_US.UTF-8
 {{- end }}
@@ -49,6 +55,7 @@ ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(bracketed-paste)
 
 # zsh helpers
 source "${HOME}/.zsh_aliases"
+compdef ll=eza
 source "${HOME}/.zsh_functions"
 {{- if .work }}
 source "${HOME}/.zsh_wtr_functions"
@@ -56,8 +63,8 @@ source "${HOME}/.zsh_wtr_functions"
 source "${HOME}/.zsh_git_title"
 {{- if .work }}
 
-(( ${+functions[compdef]} )) || { autoload -Uz compinit && compinit }
 source <(kubectl completion zsh)
+compdef k=kubectl
 
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)

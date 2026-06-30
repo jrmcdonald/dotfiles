@@ -41,6 +41,14 @@ teardown() {
   assert_output --partial "direnv hook zsh"
 }
 
+@test "zshrc [home]: initialises completions" {
+  run render_home "${ZSHRC}"
+  assert_output --partial "compinit"
+  assert_output --partial "COMPLETE_ALIASES"
+  assert_output --partial "matcher-list"
+  assert_output --partial "compdef ll=eza"
+}
+
 # ---- work profile ----
 
 @test "zshrc [work]: renders without error" {
@@ -88,4 +96,13 @@ teardown() {
 @test "zshrc [work]: loads kubectl completions" {
   run render_work "${ZSHRC}"
   assert_output --partial "kubectl completion zsh"
+}
+
+@test "zshrc [work]: initialises completions" {
+  run render_work "${ZSHRC}"
+  assert_output --partial "compinit"
+  assert_output --partial "COMPLETE_ALIASES"
+  assert_output --partial "matcher-list"
+  assert_output --partial "compdef ll=eza"
+  assert_output --partial "compdef k=kubectl"
 }
