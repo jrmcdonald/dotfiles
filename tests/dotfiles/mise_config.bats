@@ -35,7 +35,7 @@ teardown() {
   assert_output --partial 'idiomatic_version_file_enable_tools = ["java", "node"]'
   assert_output --partial "[tools]"
   assert_output --partial 'node = "24.14.1"'
-  assert_output --partial 'java = "21"'
+  assert_output --partial 'java = "25"'
 }
 
 @test "mise config [work]: renders without error" {
@@ -53,5 +53,5 @@ teardown() {
   assert_output --partial 'idiomatic_version_file_enable_tools = ["java", "node"]'
   assert_output --partial "[tools]"
   assert_output --partial 'node = "24.14.1"'
-  assert_output --partial 'java = "21"'
+  assert_output --partial 'java = "25"'
 }
