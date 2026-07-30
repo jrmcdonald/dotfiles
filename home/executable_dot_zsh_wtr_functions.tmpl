@@ -1,6 +1,73 @@
+{{- if .work -}}
 #
 # Waitrose
 #
+gcloud-sso() {
+  if ! gcloud auth list --format="value(account)" --filter="status=ACTIVE" 2>/dev/null | grep -q .; then
+    gcloud auth login
+  fi
+}
+
+gcloud-pam() {
+  gcloud_project=${1}
+  local entitlement="projects/${gcloud_project}/{{ .gcloud_entitlement_suffix }}"
+
+  if gcloud pam grants list \
+      --entitlement="${entitlement}" \
+      --location=global \
+      --filter="state=ACTIVE OR state=ACTIVATING" \
+      --format="value(name)" 2>/dev/null | grep -q .; then
+    return 0
+  fi
+
+  gcloud pam grants create \
+      --entitlement="${entitlement}" \
+      --requested-duration="36000s" \
+      --justification="Developing services" \
+      --location=global
+}
+
+gcloud-k8s() {
+  gcloud_env=${1:-flex}
+
+  gcloud-sso
+
+  gcloud_project=""
+  gcloud_cluster_name=""
+  gcloud_cluster_project=""
+  case "${gcloud_env}" in
+    "flex")
+      gcloud_project="{{ .gcloud_flex_project }}"
+      gcloud_cluster_name="{{ .gcloud_flex_cluster_name }}"
+      gcloud_cluster_project="{{ .gcloud_flex_cluster_project }}"
+      gcloud_cluster_region="{{ .gcloud_flex_cluster_region }}"
+      ;;
+    "prod")
+      gcloud_project="{{ .gcloud_prod_project }}"
+      gcloud_cluster_name="{{ .gcloud_prod_cluster_name }}"
+      gcloud_cluster_project="{{ .gcloud_prod_cluster_project }}"
+      gcloud_cluster_region="{{ .gcloud_prod_cluster_region }}"
+      ;;
+    *)
+      gcloud_project="{{ .gcloud_flex_project }}"
+      gcloud_cluster_name="{{ .gcloud_flex_cluster_name }}"
+      gcloud_cluster_project="{{ .gcloud_flex_cluster_project }}"
+      gcloud_cluster_region="{{ .gcloud_flex_cluster_region }}"
+      ;;
+  esac
+
+  gcloud-pam ${gcloud_project}
+
+  gcloud config set project ${gcloud_project}
+
+  gcloud container clusters get-credentials ${gcloud_cluster_name} --region ${gcloud_cluster_region} --project ${gcloud_cluster_project}
+
+  current_name=$(kubectx -c)
+
+  kubectl config delete-context ${gcloud_project}
+  kubectl config rename-context ${current_name} ${gcloud_project}
+}
+
 aws-sso() {
   aws_profile=${1:-nonprod}
   export AWS_PROFILE=${aws_profile}
@@ -34,6 +101,10 @@ aws-sso-by-env() {
     esac
 
     aws-sso ${aws_profile}
+}
+
+unset-kube-ctx() {
+    kubectl config unset current-context
 }
 
 aws-eks() {
@@ -137,3 +208,4 @@ docker-localstack-logs() {
 docker-localstack-bash() {
     docker exec -it $(docker ps -aqf "label=localstack") /bin/bash
 }
+{{- end -}}

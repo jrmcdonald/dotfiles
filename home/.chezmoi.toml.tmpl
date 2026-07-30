@@ -10,6 +10,15 @@
 {{- $aws_eks_kubecontext := "" -}}
 {{- $aws_ssmgateway_stack := "" -}}
 {{- $aws_customerdb_host := "" -}}
+{{- $gcloud_flex_project := "" -}}
+{{- $gcloud_flex_cluster_name := "" -}}
+{{- $gcloud_flex_cluster_project := "" -}}
+{{- $gcloud_flex_cluster_region := "" -}}
+{{- $gcloud_prod_project := "" -}}
+{{- $gcloud_prod_cluster_name := "" -}}
+{{- $gcloud_prod_cluster_project := "" -}}
+{{- $gcloud_prod_cluster_region := "" -}}
+{{- $gcloud_flex_entitlement := "" -}}
 {{- if $work -}}
 {{- $workemail = promptStringOnce . "workemail" "Work email address" -}}
 {{- $aws_sso_starturl = promptStringOnce . "aws_sso_starturl" "AWS SSO start URL" -}}
@@ -21,6 +30,15 @@
 {{- $aws_eks_kubecontext = promptStringOnce . "aws_eks_kubecontext" "AWS EKS cluster name (for kubeconfig)" -}}
 {{- $aws_ssmgateway_stack = promptStringOnce . "aws_ssmgateway_stack" "AWS SSM Gateway CloudFormation stack name" -}}
 {{- $aws_customerdb_host = promptStringOnce . "aws_customerdb_host" "Customer DB hostname" -}}
+{{- $gcloud_flex_project = promptStringOnce . "gcloud_flex_project" "GCloud flex project ID" -}}
+{{- $gcloud_flex_cluster_name = promptStringOnce . "gcloud_flex_cluster_name" "GCloud flex cluster name" -}}
+{{- $gcloud_flex_cluster_project = promptStringOnce . "gcloud_flex_cluster_project" "GCloud flex cluster project ID" -}}
+{{- $gcloud_flex_cluster_region = promptStringOnce . "gcloud_flex_cluster_region" "GCloud flex cluster region" -}}
+{{- $gcloud_prod_project = promptStringOnce . "gcloud_prod_project" "GCloud prod project ID" -}}
+{{- $gcloud_prod_cluster_name = promptStringOnce . "gcloud_prod_cluster_name" "GCloud prod cluster name" -}}
+{{- $gcloud_prod_cluster_project = promptStringOnce . "gcloud_prod_cluster_project" "GCloud prod cluster project ID" -}}
+{{- $gcloud_prod_cluster_region = promptStringOnce . "gcloud_prod_cluster_region" "GCloud prod cluster region" -}}
+{{- $gcloud_flex_entitlement = promptStringOnce . "gcloud_entitlement_suffix" "GCloud PAM entitlement suffix (e.g. locations/global/entitlements/name)" -}}
 {{- end -}}
 [data]
   work = {{ $work }}
@@ -35,4 +53,14 @@
   aws_eks_kubecontext = {{ $aws_eks_kubecontext | quote }}
   aws_ssmgateway_stack = {{ $aws_ssmgateway_stack | quote }}
   aws_customerdb_host = {{ $aws_customerdb_host | quote }}
+  gcloud_flex_project = {{ $gcloud_flex_project | quote }}
+  gcloud_flex_cluster_name = {{ $gcloud_flex_cluster_name | quote }}
+  gcloud_flex_cluster_project = {{ $gcloud_flex_cluster_project | quote }}
+  gcloud_flex_cluster_region = {{ $gcloud_flex_cluster_region | quote }}
+  gcloud_prod_project = {{ $gcloud_prod_project | quote }}
+  gcloud_prod_cluster_name = {{ $gcloud_prod_cluster_name | quote }}
+  gcloud_prod_cluster_project = {{ $gcloud_prod_cluster_project | quote }}
+  gcloud_prod_cluster_region = {{ $gcloud_prod_cluster_region | quote }}
+  gcloud_entitlement_suffix = {{ $gcloud_flex_entitlement | quote }}
+
 {{- end }}
