@@ -110,9 +110,21 @@ unset-kube-ctx() {
 aws-eks() {
     aws_eks_env=${1:-dev}
 
+    if ! lsof -ti tcp:6443 > /dev/null 2>&1; then
+        echo "❌ Error: EKS tunnel is not running. Start it first with: ssm-tunnel-eks ${aws_eks_env}"
+        return 1
+    fi
+
     aws-sso-by-env ${aws_eks_env}
 
     aws eks update-kubeconfig --name {{ .aws_eks_kubecontext }}
+
+    cluster_name=$(kubectl config view -o jsonpath="{.contexts[?(@.name==\"$(kubectl config current-context)\")].context.cluster}")
+    original_server=$(kubectl config view -o jsonpath="{.clusters[?(@.name==\"${cluster_name}\")].cluster.server}")
+    eks_hostname=$(echo "${original_server}" | sed 's|https://||')
+    kubectl config set-cluster "${cluster_name}" \
+        --server="https://127.0.0.1:6443" \
+        --tls-server-name="${eks_hostname}"
 
     current_name=$(kubectx -c)
     desired_name=$(echo ${current_name} | cut -d / -f2)
@@ -123,6 +135,48 @@ aws-eks() {
 
 cfn_nag_scan() {
   docker run -ti --rm -v $(pwd):/apps -w /apps alpine/cfn-nag $@
+}
+
+aws-customer-db-auth() {
+  dbname=${1}
+
+  cluster_endpoint=$(aws rds describe-db-cluster-endpoints --filters "Name=db-cluster-endpoint-type,Values=READER" \
+                    | jq -r '.DBClusterEndpoints[] | select(.Endpoint | contains("customer")) | .Endpoint')
+
+  aws rds generate-db-auth-token \
+      --hostname ${cluster_endpoint} \
+      --port 5432 \
+      --username ${dbname}-readonly \
+      --region eu-west-1
+}
+
+ssm-tunnel-customer-db() {
+    env=${1:-dev}
+
+    aws-sso-by-env ${env}
+
+    ssm-port-forward ${env} {{ .aws_customerdb_host }} 5432
+}
+
+ssm-tunnel-eks() {
+    eks_env=${1:-dev}
+    ssm_env=${eks_env}
+    [[ "${eks_env}" == "ute" ]] && ssm_env="dev"
+
+    aws-sso-by-env ${eks_env}
+
+    eks_cluster="{{ .aws_eks_cluster_prefix }}-${eks_env}-eks"
+    eks_endpoint=$(aws eks describe-cluster \
+        --name "${eks_cluster}" \
+        --query 'cluster.endpoint' \
+        --output text | sed 's|https://||')
+
+    if [ -z "${eks_endpoint}" ] || [ "${eks_endpoint}" = "None" ]; then
+        echo "❌ Error: Could not find EKS cluster '${eks_cluster}'"
+        return 1
+    fi
+
+    ssm-port-forward ${ssm_env} "${eks_endpoint}" 443 6443
 }
 
 ssm-get-instance-id() {
@@ -141,8 +195,7 @@ ssm-port-forward() {
     env=${1:-dev}
     host=${2}
     port=${3}
-
-    aws-sso-by-env ${env}
+    local_port=${4:-${port}}
 
     name_pattern="{{- .aws_ssmgateway_stack }}-${env}"
 
@@ -151,7 +204,7 @@ ssm-port-forward() {
     echo "--------------------------------------------------------------"
     echo "You are establishing a secure tunnel via the SSM Gateway"
     echo "Environment: ${env}"
-    echo "Local Access: localhost:${port}"
+    echo "Local Access: localhost:${local_port}"
     echo "--------------------------------------------------------------"
     echo "Notes:"
     echo "- This session has a HARD LIMIT of 120 minutes"
@@ -178,27 +231,8 @@ ssm-port-forward() {
         --parameters "{
             \"host\":[\"${host}\"],
             \"portNumber\":[\"${port}\"],
-            \"localPortNumber\":[\"${port}\"]
+            \"localPortNumber\":[\"${local_port}\"]
         }"
-}
-
-ssm-customer-db() {
-    env=${1:-dev}
-
-    ssm-port-forward ${env} {{ .aws_customerdb_host }} 5432
-}
-
-aws-customer-db-auth() {
-  dbname=${1}
-
-  cluster_endpoint=$(aws rds describe-db-cluster-endpoints --filters "Name=db-cluster-endpoint-type,Values=READER" \
-                    | jq -r '.DBClusterEndpoints[] | select(.Endpoint | contains("customer")) | .Endpoint')
-
-  aws rds generate-db-auth-token \
-      --hostname ${cluster_endpoint} \
-      --port 5432 \
-      --username ${dbname}-readonly \
-      --region eu-west-1
 }
 
 docker-localstack-logs() {

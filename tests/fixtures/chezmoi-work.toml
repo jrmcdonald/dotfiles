@@ -8,6 +8,7 @@
   aws_account_feat = "000000000004"
   aws_account_prod = "000000000005"
   aws_eks_kubecontext = "test-cluster"
+  aws_eks_cluster_prefix = "test-eks"
   aws_ssmgateway_stack = "test-ssmgateway-stack"
   aws_customerdb_host = "db.example.internal"
   gcloud_flex_project = "test-flex-project"

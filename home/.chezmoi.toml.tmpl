@@ -8,6 +8,7 @@
 {{- $aws_account_feat := "" -}}
 {{- $aws_account_prod := "" -}}
 {{- $aws_eks_kubecontext := "" -}}
+{{- $aws_eks_cluster_prefix := "" -}}
 {{- $aws_ssmgateway_stack := "" -}}
 {{- $aws_customerdb_host := "" -}}
 {{- $gcloud_flex_project := "" -}}
@@ -28,6 +29,7 @@
 {{- $aws_account_feat = promptStringOnce . "aws_account_feat" "AWS feat account ID" -}}
 {{- $aws_account_prod = promptStringOnce . "aws_account_prod" "AWS prod account ID" -}}
 {{- $aws_eks_kubecontext = promptStringOnce . "aws_eks_kubecontext" "AWS EKS cluster name (for kubeconfig)" -}}
+{{- $aws_eks_cluster_prefix = promptStringOnce . "aws_eks_cluster_prefix" "AWS EKS cluster name prefix" -}}
 {{- $aws_ssmgateway_stack = promptStringOnce . "aws_ssmgateway_stack" "AWS SSM Gateway CloudFormation stack name" -}}
 {{- $aws_customerdb_host = promptStringOnce . "aws_customerdb_host" "Customer DB hostname" -}}
 {{- $gcloud_flex_project = promptStringOnce . "gcloud_flex_project" "GCloud flex project ID" -}}
@@ -51,6 +53,7 @@
   aws_account_feat = {{ $aws_account_feat | quote }}
   aws_account_prod = {{ $aws_account_prod | quote }}
   aws_eks_kubecontext = {{ $aws_eks_kubecontext | quote }}
+  aws_eks_cluster_prefix = {{ $aws_eks_cluster_prefix | quote }}
   aws_ssmgateway_stack = {{ $aws_ssmgateway_stack | quote }}
   aws_customerdb_host = {{ $aws_customerdb_host | quote }}
   gcloud_flex_project = {{ $gcloud_flex_project | quote }}
